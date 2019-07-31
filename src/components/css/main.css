@@ -1,0 +1,85 @@
+.ins-root-main {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  text-align: left;
+}
+.ins-root-main-left {
+  width: 30%;
+  background-color: #a5ce39;
+}
+.ins-root-main-right {
+  width: 70%;
+  background-color: white;
+}
+.ins-root-main-icon {
+  width: 160px;
+  height: 160px;
+  background-color: #f8f8f8;
+  position: absolute;
+  left: calc(30% - 80px);
+  top: calc(50% - 80px);
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  border-right: 1px solid #a5ce39;
+  animation-name: slideLogo;
+  animation-duration: 0.75s;
+  opacity: 1;
+}
+.ins-root-main-icon img {
+  width: 100%;
+}
+.ins-root-main-icon-main {
+  width: 100%;
+  font-size: 120px;
+}
+.ins-root-main-left-logo {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+.ins-root-main-left-logo img {
+  width: 100%;
+  max-width: 300px;
+}
+.ins-root-main-right {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+.ins-root-main-right-container {
+  width: calc(100% - 80px);
+  height: 100%; /* 
+  background-color: aqua; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ins-root-main-right-container-dummy {
+  width: 80px;
+}
+.ins-root-main-right-container-panel {
+  width: 80%;
+  height: 90%;
+  color: #a5ce39;
+  font-family: "robotolight", sans-serif;
+  margin-bottom: 15px;
+  font-size: 40px;
+  background-color: bisque;
+}
+.ins-root-main-right-container-panel-greet {
+  text-transform: uppercase;
+}
+.ins-root-main-right-container-panel-info {
+  font-size: 20px;
+  color: #424143;
+}
+@keyframes slideLogo {
+  from {
+    left: calc(30% - 130px);
+  }
+  to {
+    left: calc(30% - 80px);
+  }
+}
