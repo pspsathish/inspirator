@@ -5,17 +5,21 @@ const inputContainerStyle = {
   width: "100%",
   display: "flex"
 };
-
+const formGroupStyle = {
+  marginBottom: "0px",
+  width: "60%",
+  height: "40px"
+};
 const iconStyle = {
-  display: "table-cell",
-  textAlign: "center",
-  verticalAlign: "middle",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
   position: "absolute",
   color: "#fff",
   top: "0px",
   bottom: "0px",
   height: "100%",
-  width: "30px",
+  width: "40px",
   fontSize: "20px",
   backgroundColor: "#424143"
 };
@@ -27,10 +31,11 @@ const inputIconStyle = {
   /* boxShadow: "inset 0 1px 2px rgba(10,10,10,.5)", */
   width: "100%",
   border: "1px solid #424143",
-  textIndent: "30px",
+  textIndent: "40px",
   display: "table-cell",
   fontSize: "14px",
-  boxShadow: "none"
+  boxShadow: "none",
+  height: "40px"
 };
 const inputStyle = {
   backgroundColor: "#fff",
@@ -38,10 +43,11 @@ const inputStyle = {
   color: "#363636",
   /* boxShadow: "inset 0 1px 2px rgba(10,10,10,.5)", */
   width: "100%",
-  border: "1px solid rgb(247, 215, 71)",
+  border: "1px solid #424143",
   display: "table-cell",
   fontSize: "14px",
-  boxShadow: "none"
+  boxShadow: "none",
+  height: "40px"
 };
 const errorStyle = {
   fontSize: "12px",
@@ -49,7 +55,7 @@ const errorStyle = {
 };
 const Input = ({ name, label, error, icon, ...rest }) => {
   return (
-    <div className="form-group">
+    <div className="form-group" style={formGroupStyle}>
       {/* <label htmlFor={name}>{label}</label> */}
       <div className="inputContainer" style={inputContainerStyle}>
         {icon !== "none" ? (

@@ -13,6 +13,7 @@ button {
 button:disabled {
   background: lightgray;
   pointer-events: none;
+  color: grey;
 }
 .button-default {
   height: 4.5rem;
@@ -22,6 +23,8 @@ button:disabled {
   border-width: 0;
   border-radius: 2.25rem;
   width: 15rem;
+  background-color: rgb(66, 65, 67);
+  color: white;
 }
 .nocurve {
   border-radius: 0px;

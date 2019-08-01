@@ -2,12 +2,11 @@ import React from "react";
 import Joi from "joi-browser";
 import Form from "./Form";
 import { getDBService } from "../components/utils/dbservice";
-import { FaEnvelope } from "react-icons/fa";
 
-import "./css/login.css";
+import "./css/personalInfo.css";
 class Login extends Form {
   state = {
-    emailVerificationPanel: "show",
+    emailVerificationPanel: "hide",
     data: {
       email: ""
     },
@@ -24,13 +23,17 @@ class Login extends Form {
       .email()
       .label("Identity")
   };
-  constructor() {
-    super();
-    this.myRef = React.createRef();
+  componentDidUpdate(prevProp) {
+    if (prevProp.step !== this.props.step) {
+      if (this.props.step === 1) {
+        this.setState({ emailVerificationPanel: "show" });
+      }
+    }
   }
   onClickHandler = props => {
     //console.log(props);
   };
+
   doSubmit = async () => {
     //console.log("doSubmit - LoginForm.jsx");
     this.props.showProgress();
@@ -40,7 +43,9 @@ class Login extends Form {
       this.goForward
     );
   };
-
+  stepDeside = () => {
+    return this.props.step === 0 ? "showNone" : "";
+  };
   goForward = (result, { aid }, message) => {
     if (result === "success") {
       this.setState({ emailVerificationPanel: "hide" });
@@ -53,17 +58,21 @@ class Login extends Form {
   loginPanel = () => {
     return (
       <div
-        className={"ipForm-login " + this.state.emailVerificationPanel}
-        ref={this.myRef}
+        className={
+          "pInfoForm-login " +
+          this.state.emailVerificationPanel +
+          " " +
+          this.stepDeside()
+        }
       >
-        <div className="ipForm-title">Identify Yourself</div>
-        <div className="ipForm-content">
+        <div className="pInfoForm-title">Identify Yourself</div>
+        <div className="pInfoForm-content">
           <form
-            className="ipForm"
+            className="pInfoForm"
             onSubmit={this.handleSubmit}
             autoComplete="off"
           >
-            {this.renderInput("email", "Email", <FaEnvelope />)}
+            {this.renderInput("email", "Email")}
             <div className="dummy-space" />
             <div className="login-button">
               {this.renderButton(

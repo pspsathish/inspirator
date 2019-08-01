@@ -111,7 +111,6 @@ class Form extends Component {
     dependon = null
   ) {
     const { data, errors } = this.state;
-    console.log(data);
     return (
       <Input
         value={data[name]}

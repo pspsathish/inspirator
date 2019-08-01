@@ -1,3 +1,8 @@
+.ins-loading {
+  position: absolute;
+  width: 100%;
+  z-index: 100;
+}
 .ins-root-main {
   width: 100vw;
   height: 100vh;
@@ -80,32 +85,21 @@
 .ins-rmrcp-frame1-info {
   font-size: 18px;
   color: #424143;
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 .ins-rmrcp-frame2 {
   height: calc(100% - 120px);
-  border-right: 1px solid #a5ce39;
   display: flex;
   /* justify-content: center; */
   align-items: center;
 }
-.ins-rmrcp-frame2-login {
-  width: 100%;
-  height: 400px;
-  display: flex;
-  flex-direction: column;
-}
-.ins-rmrcp-f2-title {
-}
-.ins-rmrcp-f2-content {
-  padding: 50px;
-  font-size: 20px;
-}
 @keyframes slideLogo {
   from {
     left: calc(20% - 100px);
+    opacity: 0;
   }
   to {
     left: calc(20% - 50px);
+    opacity: 1;
   }
 }
