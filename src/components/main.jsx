@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Login from "./LoginForm";
 import { MdAccountBox } from "react-icons/md";
 
 import "./css/main.css";
@@ -19,17 +20,24 @@ class Main extends Component {
           <div className="ins-root-main-right-container-dummy" />
           <div className="ins-root-main-right-container">
             <div className="ins-root-main-right-container-panel">
-              <div className="ins-root-main-right-container-panel-greet">
-                Welcome Aspirant!
+              <div className="ins-rmrcp-frame1">
+                <div className="ins-rmrcp-frame1-greet">Welcome Aspirant!</div>
+                <div className="ins-rmrcp-frame1-info">
+                  Register to continue
+                </div>
               </div>
-              <div className="ins-root-main-right-container-panel-info">
-                Register to continue
+              <div className="ins-rmrcp-frame2">
+                <div className="ins-rmrcp-frame2-login">
+                  <div className="ins-rmrcp-f2-title">Identify Yourself</div>
+                  <div className="ins-rmrcp-f2-content">
+                    <Login />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div className="ins-root-main-icon">
-          {/* <img alt="logo spi" src="../images/SPi-Global-logo-880x654.png" /> */}
           <MdAccountBox className="ins-root-main-icon-main" />
         </div>
       </div>

@@ -5,20 +5,21 @@
   text-align: left;
 }
 .ins-root-main-left {
-  width: 30%;
+  width: 20%;
   background-color: #a5ce39;
 }
 .ins-root-main-right {
-  width: 70%;
+  width: 80%;
   background-color: white;
 }
 .ins-root-main-icon {
-  width: 160px;
-  height: 160px;
+  width: 100px;
+  height: 100px;
   background-color: #f8f8f8;
   position: absolute;
-  left: calc(30% - 80px);
-  top: calc(50% - 80px);
+  left: calc(20% - 50px);
+  /* top: calc(50% - 170px); */
+  top: 120px;
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -32,7 +33,7 @@
 }
 .ins-root-main-icon-main {
   width: 100%;
-  font-size: 120px;
+  font-size: 80px;
 }
 .ins-root-main-left-logo {
   display: flex;
@@ -49,7 +50,7 @@
   align-items: center;
 }
 .ins-root-main-right-container {
-  width: calc(100% - 80px);
+  width: calc(100% - 50px);
   height: 100%; /* 
   background-color: aqua; */
   display: flex;
@@ -57,29 +58,54 @@
   align-items: center;
 }
 .ins-root-main-right-container-dummy {
-  width: 80px;
+  width: 50px;
 }
 .ins-root-main-right-container-panel {
   width: 80%;
-  height: 90%;
+  height: 100%;
   color: #a5ce39;
   font-family: "robotolight", sans-serif;
-  margin-bottom: 15px;
   font-size: 40px;
-  background-color: bisque;
+  display: flex;
+  flex-direction: column;
+  /* background-color: bisque; */
 }
-.ins-root-main-right-container-panel-greet {
+.ins-rmrcp-frame1 {
+  height: 120px;
+}
+.ins-rmrcp-frame1-greet {
   text-transform: uppercase;
+  padding-top: 20px;
 }
-.ins-root-main-right-container-panel-info {
-  font-size: 20px;
+.ins-rmrcp-frame1-info {
+  font-size: 18px;
   color: #424143;
+  text-decoration: underline;
+}
+.ins-rmrcp-frame2 {
+  height: calc(100% - 120px);
+  border-right: 1px solid #a5ce39;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+}
+.ins-rmrcp-frame2-login {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+.ins-rmrcp-f2-title {
+}
+.ins-rmrcp-f2-content {
+  padding: 50px;
+  font-size: 20px;
 }
 @keyframes slideLogo {
   from {
-    left: calc(30% - 130px);
+    left: calc(20% - 100px);
   }
   to {
-    left: calc(30% - 80px);
+    left: calc(20% - 50px);
   }
 }

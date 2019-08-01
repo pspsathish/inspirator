@@ -1,0 +1,51 @@
+.formPadding-20 {
+  /*  padding: 20px; */
+}
+.login-err-text {
+  margin-left: 10px;
+  color: #af0909;
+}
+.login-formLAlign {
+  text-align: left;
+  margin: 20px;
+  /* padding: 50%; */
+  /* margin: auto; */
+  /* left: 0px; */
+  /* top: 0px;
+  bottom: 0px; */
+  /* right: 0px; */
+  position: relative;
+  /* width: 500px; */
+  /* height: 450px; */
+  background-color: #a5ce39;
+  border-radius: 25px;
+}
+.login-formBG {
+  padding: 10px;
+}
+label {
+  margin-bottom: 0px !important;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #dc3545 !important;
+  border-color: #e2c506 !important;
+}
+.btn-primary.disabled,
+.btn-primary:disabled {
+  color: #fff;
+  background-color: #b5b3ab !important;
+  border-color: #e2c506 !important;
+}
+.btn-primary:focus,
+.btn-primary.focus {
+  box-shadow: 0 0 0 0.2rem rgb(226, 197, 6) !important;
+}
+.login-notes {
+  text-align: left;
+  padding: 10px;
+}
+.ipForm {
+  display: flex;
+}
