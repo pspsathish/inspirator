@@ -7,7 +7,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
 }
-
+label {
+  font-weight: 600;
+}
+.marginBottom-50 {
+  margin-bottom: 50px;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

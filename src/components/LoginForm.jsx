@@ -45,7 +45,7 @@ class Login extends Form {
     if (result === "success") {
       this.setState({ emailVerificationPanel: "hide" });
       this.props.hideProgress();
-      this.props.goNext();
+      this.props.goNext(this.state.data);
     } else {
       //this.setErrorText(message);
     }
@@ -73,6 +73,7 @@ class Login extends Form {
                 this.state.disable
               )}
             </div>
+            <div className="marginBottom-50" />
           </form>
         </div>
       </div>

@@ -11,7 +11,23 @@ class Main extends Component {
     super(props);
     this.state = {
       loading: false,
-      step: 0
+      step: 0,
+      page0: {
+        data: {
+          email: ""
+        }
+      },
+      page1: {
+        data: {
+          name: "",
+          dob: "",
+          nationality: "",
+          mobile: "",
+          email: "",
+          gender: "",
+          mstatus: ""
+        }
+      }
     };
   }
   showLoading = () => {
@@ -20,7 +36,10 @@ class Main extends Component {
   hideLoading = () => {
     this.setState({ loading: false });
   };
-  increaseStep = () => {
+  increaseStep = data => {
+    if (this.state.step === 0) {
+      this.setState({ page0: { data: data } });
+    }
     this.setState({ step: this.state.step + 1 });
   };
   render() {
@@ -39,6 +58,12 @@ class Main extends Component {
             </div>
           </div>
           <div className="ins-root-main-right">
+            {/* <div className="ins-root-main-right-banner">
+              <img
+                alt="banner spi"
+                src="./images/FB_Cover_Photo_02232017_Final_FIle.jpg"
+              />
+            </div> */}
             <div className="ins-root-main-right-container-dummy" />
             <div className="ins-root-main-right-container">
               <div className="ins-root-main-right-container-panel">

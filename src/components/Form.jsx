@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
-/* import DropDownList from "./dropDownList"; */
+import DropDownList from "./dropDownList";
 import Input from "./Input";
 /* import AgreeBox from "./agreeBox"; */
 import Button from "./Button";
@@ -57,7 +57,7 @@ class Form extends Component {
         {label}
       </button> */
 
-  /*  handleDropDownChange = (value, selectedOption) => {
+  handleDropDownChange = (value, selectedOption) => {
     const errors = { ...this.state.errors };
     const errorMessage = this.validateDropDownProperty(value, selectedOption);
 
@@ -67,7 +67,7 @@ class Form extends Component {
     const data = { ...this.state.data };
     data[value] = selectedOption;
     this.setState({ data, errors });
-  }; */
+  };
 
   /* validateAgreed = (name, value) => {
     const obj = { [name]: value };
@@ -124,7 +124,7 @@ class Form extends Component {
       />
     );
   }
-  /* renderDropDownList(name, label, options) {
+  renderDropDownList(name, label, options) {
     const { errors } = this.state;
     return (
       <DropDownList
@@ -134,7 +134,7 @@ class Form extends Component {
         error={errors[name]}
       />
     );
-  } */
+  }
   /* renderAgreeBox(name, label, errorMessage, options) {
     const { errors } = this.state;
     return (

@@ -7,8 +7,12 @@ const inputContainerStyle = {
 };
 const formGroupStyle = {
   marginBottom: "0px",
-  width: "60%",
-  height: "40px"
+  width: "90%",
+  height: "94px",
+  color: "black"
+};
+const formGroupLabelStyle = {
+  marginBottom: "0px"
 };
 const iconStyle = {
   display: "flex",
@@ -33,7 +37,7 @@ const inputIconStyle = {
   border: "1px solid #424143",
   textIndent: "40px",
   display: "table-cell",
-  fontSize: "14px",
+  fontSize: "18px",
   boxShadow: "none",
   height: "40px"
 };
@@ -45,7 +49,7 @@ const inputStyle = {
   width: "100%",
   border: "1px solid #424143",
   display: "table-cell",
-  fontSize: "14px",
+  fontSize: "18px",
   boxShadow: "none",
   height: "40px"
 };
@@ -56,7 +60,11 @@ const errorStyle = {
 const Input = ({ name, label, error, icon, ...rest }) => {
   return (
     <div className="form-group" style={formGroupStyle}>
-      {/* <label htmlFor={name}>{label}</label> */}
+      {
+        <label htmlFor={name} style={formGroupLabelStyle}>
+          {label}
+        </label>
+      }
       <div className="inputContainer" style={inputContainerStyle}>
         {icon !== "none" ? (
           <div className="inputIcon" style={iconStyle}>
@@ -69,7 +77,7 @@ const Input = ({ name, label, error, icon, ...rest }) => {
           id={name}
           className="form-control"
           style={icon !== "none" ? inputIconStyle : inputStyle}
-          placeholder={label}
+          /* placeholder={label} */
         />
       </div>
       {error && (

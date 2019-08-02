@@ -23,8 +23,7 @@
   background-color: #f8f8f8;
   position: absolute;
   left: calc(20% - 50px);
-  /* top: calc(50% - 170px); */
-  top: 120px;
+  top: calc(50% - 50px);
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -49,10 +48,18 @@
   width: 100%;
   max-width: 300px;
 }
+.ins-root-main-right-banner {
+  width: 100%;
+}
+.ins-root-main-right-banner img {
+  width: 100%;
+}
 .ins-root-main-right {
   display: flex;
   justify-content: left;
   align-items: center;
+  flex-direction: column;
+  overflow: auto;
 }
 .ins-root-main-right-container {
   width: calc(100% - 50px);
@@ -71,12 +78,13 @@
   color: #a5ce39;
   font-family: "robotolight", sans-serif;
   font-size: 40px;
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
   /* background-color: bisque; */
 }
 .ins-rmrcp-frame1 {
   height: 120px;
+  margin-bottom: 50px;
 }
 .ins-rmrcp-frame1-greet {
   text-transform: uppercase;
@@ -88,9 +96,8 @@
   /* text-decoration: underline; */
 }
 .ins-rmrcp-frame2 {
-  height: calc(100% - 120px);
+  /* height: calc(100% - 120px); */
   display: flex;
-  /* justify-content: center; */
   align-items: center;
 }
 @keyframes slideLogo {
