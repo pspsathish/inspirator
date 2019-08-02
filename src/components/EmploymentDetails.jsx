@@ -3,11 +3,11 @@ import Joi from "joi-browser";
 import Form from "./Form";
 import DatePicker from "react-datepicker";
 import { RadioGroup, RadioButton } from "react-radio-buttons";
-import { getDBService } from "../components/utils/dbservice";
+import { getDBService } from "./utils/dbservice";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-import "./css/personalInfo.css";
+import "./css/employmentDetails.css";
 
 const interviewTests = [
   {
@@ -24,7 +24,7 @@ const interviewTests = [
   }
 ];
 
-class PersonalInfo extends Form {
+class EmploymentDetails extends Form {
   state = {
     data: {
       name: "",
@@ -41,7 +41,7 @@ class PersonalInfo extends Form {
       background: "#424143",
       color: "#fff"
     },
-    disable: true,
+    disable: false,
     startDate: new Date()
   };
   schema = {
@@ -98,6 +98,9 @@ class PersonalInfo extends Form {
       this.goForward
     );
   };
+  stepDeside = () => {
+    return this.props.step === 0 ? "showNone" : "";
+  };
   goForward = (result, { aid }, message) => {
     if (result === "success") {
       this.props.hideProgress();
@@ -106,73 +109,49 @@ class PersonalInfo extends Form {
       //this.setErrorText(message);
     }
   };
-  handleDummyClick = () => {
-    this.props.goNext();
-  };
-  pInfoPanel = () => {
+  loginPanel = () => {
     return (
-      <div className={"pInfoForm-login show"}>
-        <div className="pInfoForm-title">Fill your personal details</div>
-        <div className="pInfoForm-content">
+      <div className={"empDetailsForm-login show"}>
+        <div className="empDetailsForm-title">Fill your employment details</div>
+        <div className="empDetailsForm-content">
           <form
-            className="pInfoForm"
+            className="empDetailsForm"
             onSubmit={this.handleSubmit}
             autoComplete="off"
           >
-            {this.renderInput("name", "Name")}
-            <div style={{ height: "94px", width: "90%" }}>
-              <label
-                htmlFor="dob"
-                style={{ color: "black", display: "block", marginBottom: "0" }}
-              >
-                Date of Birth
-              </label>
-              <DatePicker
-                name="dob"
-                dateFormat="MM/dd/yyyy"
-                selected={this.state.startDate}
-                onChange={this.handleDoBChange}
-                className="datePicker"
-              />
-            </div>
-            {this.renderDropDownList(
-              "testType",
-              "Select Test:",
-              interviewTests
+            {this.renderInput("papplied", "Post Applied for")}
+            {this.renderInput(
+              "exp",
+              "Total Experience <span class='smallLabel'>[in years]</span>"
             )}
-            {this.renderInput("mobile", "Mobile Number")}
-            {this.renderInput("email", "Email ID")}
+            {this.renderInput(
+              "rexp",
+              "Relevant Experience <span class='smallLabel'>[in years]</span>"
+            )}
+
+            {this.renderInput("reason", "Reason for Change in job")}
             <div
               style={{ height: "94px", width: "90%" }}
-              className="pi-radioGroup"
+              className="empdet-radioGroup"
             >
               <label
-                htmlFor="gender"
+                htmlFor="notice"
                 style={{ color: "black", display: "block", marginBottom: "0" }}
               >
-                Gender
+                Notice Period{" "}
+                <span className="smallLabel">
+                  [time required to join, if selected]
+                </span>
               </label>
-              <RadioGroup onChange={this.onChange} horizontal>
-                <RadioButton value="0">Male</RadioButton>
-                <RadioButton value="1">Female</RadioButton>
+              <RadioGroup onChange={this.onChange}>
+                <RadioButton value="0">Immediate</RadioButton>
+                <RadioButton value="1">15 days</RadioButton>
+                <RadioButton value="2">30 days</RadioButton>
+                <RadioButton value="3">60 days or more</RadioButton>
               </RadioGroup>
             </div>
-            <div
-              style={{ height: "94px", width: "90%" }}
-              className="pi-radioGroup"
-            >
-              <label
-                htmlFor="marital"
-                style={{ color: "black", display: "block", marginBottom: "0" }}
-              >
-                Marital Status
-              </label>
-              <RadioGroup onChange={this.onChange} horizontal>
-                <RadioButton value="0">Single</RadioButton>
-                <RadioButton value="1">Married</RadioButton>
-                <RadioButton value="2">Separated</RadioButton>
-              </RadioGroup>
-            </div>
+            {this.renderInput("cctc", "Current CTC per month [INR]")}
+            {this.renderInput("ectc", "Expected CTC per month [INR]")}
             <div className="dummy-space" />
             <div className="login-button">
               {this.renderButton(
@@ -184,14 +163,12 @@ class PersonalInfo extends Form {
             </div>
             <div className="marginBottom-50" />
           </form>
-
-          <button onClick={this.handleDummyClick}>CONTINUE</button>
         </div>
       </div>
     );
   };
   render() {
-    return <React.Fragment>{this.pInfoPanel()}</React.Fragment>;
+    return <React.Fragment>{this.loginPanel()}</React.Fragment>;
   }
 }
-export default PersonalInfo;
+export default EmploymentDetails;

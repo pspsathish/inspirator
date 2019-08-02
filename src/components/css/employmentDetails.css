@@ -1,4 +1,4 @@
-.pInfoForm {
+.empDetailsForm {
   display: flex;
   flex-direction: column;
 }
@@ -8,18 +8,18 @@
 .login-button {
   width: 20%;
 }
-.pInfoForm-login {
+.empDetailsForm-login {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-.pInfoForm-title {
+.empDetailsForm-title {
   text-transform: uppercase;
   font-size: 22px;
 }
-.pInfoForm-content {
+.empDetailsForm-content {
   border-right: 1px solid #a5ce39;
   font-size: 20px;
   padding-left: 0px;
@@ -78,18 +78,18 @@
   box-shadow: none !important;
   border-radius: 0.25rem !important;
 }
-.pi-radioGroup > div > div > div {
+.empdet-radioGroup > div > div > div {
   align-items: center;
 }
-.pi-radioGroup > div > div > div > div + div {
+.empdet-radioGroup > div > div > div > div + div {
   width: 20px !important;
   height: 20px !important;
 }
-.pi-radioGroup > div > div > div > div + div > div {
+.empdet-radioGroup > div > div > div > div + div > div {
   background: rgb(165, 206, 57) !important;
 }
-.pi-radioGroup {
-  height: 114px !important;
+.empdet-radioGroup {
+  height: 360px !important;
 }
 @keyframes loginShow {
   from {

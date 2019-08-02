@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Login from "./LoginForm";
 import PersonalInfo from "./PersonalInfo";
+import EmploymentDetails from "./EmploymentDetails";
 import { MdAccountBox } from "react-icons/md";
 
 import ProgressBar from "./utils/ProgressBar";
@@ -11,7 +12,7 @@ class Main extends Component {
     super(props);
     this.state = {
       loading: false,
-      step: 0,
+      step: 2,
       page0: {
         data: {
           email: ""
@@ -76,7 +77,7 @@ class Main extends Component {
                   </div>
                 </div>
                 <div className="ins-rmrcp-frame2">
-                  {step === 0 || step === 1 ? (
+                  {step === 0 ? (
                     <Login
                       showProgress={this.showLoading}
                       hideProgress={this.hideLoading}
@@ -84,8 +85,16 @@ class Main extends Component {
                       step={step}
                     />
                   ) : null}
-                  {step === 0 || step === 1 || step === 2 ? (
+                  {step === 1 ? (
                     <PersonalInfo
+                      showProgress={this.showLoading}
+                      hideProgress={this.hideLoading}
+                      goNext={this.increaseStep}
+                      step={step}
+                    />
+                  ) : null}
+                  {step === 2 ? (
+                    <EmploymentDetails
                       showProgress={this.showLoading}
                       hideProgress={this.hideLoading}
                       goNext={this.increaseStep}

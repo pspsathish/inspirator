@@ -61,9 +61,13 @@ const Input = ({ name, label, error, icon, ...rest }) => {
   return (
     <div className="form-group" style={formGroupStyle}>
       {
-        <label htmlFor={name} style={formGroupLabelStyle}>
-          {label}
-        </label>
+        <label
+          htmlFor={name}
+          style={formGroupLabelStyle}
+          dangerouslySetInnerHTML={{
+            __html: label
+          }}
+        />
       }
       <div className="inputContainer" style={inputContainerStyle}>
         {icon !== "none" ? (

@@ -7,7 +7,6 @@ import { FaEnvelope } from "react-icons/fa";
 import "./css/login.css";
 class Login extends Form {
   state = {
-    emailVerificationPanel: "show",
     data: {
       email: ""
     },
@@ -43,7 +42,6 @@ class Login extends Form {
 
   goForward = (result, { aid }, message) => {
     if (result === "success") {
-      this.setState({ emailVerificationPanel: "hide" });
       this.props.hideProgress();
       this.props.goNext(this.state.data);
     } else {
@@ -52,10 +50,7 @@ class Login extends Form {
   };
   loginPanel = () => {
     return (
-      <div
-        className={"ipForm-login " + this.state.emailVerificationPanel}
-        ref={this.myRef}
-      >
+      <div className={"ipForm-login show"} ref={this.myRef}>
         <div className="ipForm-title">Identify Yourself</div>
         <div className="ipForm-content">
           <form

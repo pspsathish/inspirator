@@ -31,25 +31,6 @@
   animation-duration: 0.5s;
   position: relative;
 }
-.hide {
-  /* animation-name: loginHide; */
-  /* animation-duration: 0.5s;
-  animation-fill-mode: forwards; */
-  display: none;
-  /* position: relative;
-  opacity: 0; */
-  /* transition: display 3.25s, opacity 0.15s linear; */
-}
-@keyframes slideLogo {
-  from {
-    left: calc(20% - 100px);
-    opacity: 0;
-  }
-  to {
-    left: calc(20% - 50px);
-    opacity: 1;
-  }
-}
 @keyframes loginShow {
   from {
     left: 100%;
@@ -58,20 +39,5 @@
   to {
     left: 0%;
     opacity: 1;
-  }
-}
-
-@keyframes loginHide {
-  0% {
-    right: 0%;
-    opacity: 1;
-  }
-  99% {
-    right: 100%;
-    opacity: 0;
-  }
-  100% {
-    right: 300%;
-    width: 0px;
   }
 }

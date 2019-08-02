@@ -59,7 +59,8 @@
   justify-content: left;
   align-items: center;
   flex-direction: column;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .ins-root-main-right-container {
   width: calc(100% - 50px);
