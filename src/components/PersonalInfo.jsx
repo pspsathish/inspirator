@@ -9,18 +9,18 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import "./css/personalInfo.css";
 
-const interviewTests = [
+const nationality = [
   {
-    value: "T1_E1",
-    label: "INT_T1_E1 - HTML Developer <= 2 Years"
+    value: "0",
+    label: "Item 1"
   },
   {
-    value: "T1_E2",
-    label: "INT_T1_E2 - HTML Developer > 2 Years and <= 4"
+    value: "1",
+    label: "Item 2"
   },
   {
-    value: "T1_E3",
-    label: "INT_T1_E3 - HTML Developer > 4 Years"
+    value: "2",
+    label: "Item 3"
   }
 ];
 
@@ -29,12 +29,11 @@ class PersonalInfo extends Form {
     data: {
       name: "",
       dob: "",
-      nationality: "",
+      nationality: null,
       mobile: "",
       email: "",
       gender: "",
-      mstatus: "",
-      testType: null
+      mstatus: ""
     },
     errors: {},
     buttonStyle: {
@@ -53,10 +52,12 @@ class PersonalInfo extends Form {
       .required()
       .email()
       .label("Identity"),
-    nationality: Joi.string()
-      .required()
-      .email()
-      .label("Identity"),
+    nationality: Joi.object()
+      .keys({
+        label: Joi.string().max(50),
+        value: Joi.string().max(50)
+      })
+      .label("nationality"),
     mobile: Joi.string()
       .required()
       .email()
@@ -72,14 +73,12 @@ class PersonalInfo extends Form {
     mstatus: Joi.string()
       .required()
       .email()
-      .label("Identity"),
-    testType: Joi.object()
-      .keys({
-        label: Joi.string().max(50),
-        value: Joi.string().max(50)
-      })
-      .label("testType")
+      .label("Identity")
   };
+  componentDidMount() {
+    const { data } = this.props;
+    this.setState({ data });
+  }
   handleDoBChange = date => {
     this.setState({
       startDate: date
@@ -112,20 +111,20 @@ class PersonalInfo extends Form {
   pInfoPanel = () => {
     return (
       <div className={"pInfoForm-login show"}>
-        <div className="pInfoForm-title">Fill your personal details</div>
+        {/* <div className="pInfoForm-title">Fill your personal details</div> */}
         <div className="pInfoForm-content">
           <form
             className="pInfoForm"
             onSubmit={this.handleSubmit}
             autoComplete="off"
           >
-            {this.renderInput("name", "Name")}
+            {this.renderInput("name", "Name<sup class='supStar'>*</sup>")}
             <div style={{ height: "94px", width: "90%" }}>
               <label
                 htmlFor="dob"
                 style={{ color: "black", display: "block", marginBottom: "0" }}
               >
-                Date of Birth
+                Date of Birth<sup class="supStar">*</sup>
               </label>
               <DatePicker
                 name="dob"
@@ -136,11 +135,14 @@ class PersonalInfo extends Form {
               />
             </div>
             {this.renderDropDownList(
-              "testType",
-              "Select Test:",
-              interviewTests
+              "nationality",
+              "Nationality<sup class='supStar'>*</sup>",
+              nationality
             )}
-            {this.renderInput("mobile", "Mobile Number")}
+            {this.renderInput(
+              "mobile",
+              "Mobile Number<sup class='supStar'>*</sup>"
+            )}
             {this.renderInput("email", "Email ID")}
             <div
               style={{ height: "94px", width: "90%" }}
@@ -150,7 +152,7 @@ class PersonalInfo extends Form {
                 htmlFor="gender"
                 style={{ color: "black", display: "block", marginBottom: "0" }}
               >
-                Gender
+                Gender<sup class="supStar">*</sup>
               </label>
               <RadioGroup onChange={this.onChange} horizontal>
                 <RadioButton value="0">Male</RadioButton>
@@ -165,7 +167,7 @@ class PersonalInfo extends Form {
                 htmlFor="marital"
                 style={{ color: "black", display: "block", marginBottom: "0" }}
               >
-                Marital Status
+                Marital Status<sup class="supStar">*</sup>
               </label>
               <RadioGroup onChange={this.onChange} horizontal>
                 <RadioButton value="0">Single</RadioButton>

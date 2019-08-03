@@ -12,23 +12,24 @@ class Main extends Component {
     super(props);
     this.state = {
       loading: false,
-      step: 2,
+      step: 1,
       page0: {
         data: {
-          email: ""
+          email: "" //email
         }
       },
       page1: {
         data: {
-          name: "",
-          dob: "",
-          nationality: "",
-          mobile: "",
-          email: "",
-          gender: "",
-          mstatus: ""
+          name: "sathish", //string, length:50
+          dob: "05/05/1979", //string, date
+          nationality: null, //object
+          mobile: "9840945551", //number, >999999999
+          email: "sathishkumar.s@spi-global.com", //email, but need to take from the login page0
+          gender: 0, //number
+          mstatus: 1 //number
         }
-      }
+      },
+      subtitle: ["Login/Register to continue", "Fill your personal details"]
     };
   }
   showLoading = () => {
@@ -44,7 +45,7 @@ class Main extends Component {
     this.setState({ step: this.state.step + 1 });
   };
   render() {
-    const { loading, step } = this.state;
+    const { loading, step, page0, page1 } = this.state;
     return (
       <React.Fragment>
         {loading ? (
@@ -73,7 +74,7 @@ class Main extends Component {
                     Welcome Aspirant!
                   </div>
                   <div className="ins-rmrcp-frame1-info">
-                    Login/Register to continue
+                    {this.state.subtitle[this.state.step]}
                   </div>
                 </div>
                 <div className="ins-rmrcp-frame2">
@@ -91,6 +92,7 @@ class Main extends Component {
                       hideProgress={this.hideLoading}
                       goNext={this.increaseStep}
                       step={step}
+                      data={page1.data}
                     />
                   ) : null}
                   {step === 2 ? (

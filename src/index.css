@@ -16,6 +16,9 @@ label {
 .smallLabel {
   font-size: 14px;
 }
+.supStar {
+  color: red;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

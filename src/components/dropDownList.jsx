@@ -13,7 +13,12 @@ const formGroupLabelStyle = {
 const DropDownList = ({ label, options, error, ...rest }) => {
   return (
     <div className="form-group" style={formGroupStyle}>
-      <label style={formGroupLabelStyle}>{label}</label>
+      <label
+        style={formGroupLabelStyle}
+        dangerouslySetInnerHTML={{
+          __html: label
+        }}
+      />
       <Select {...rest} options={options} />
       {error && <div className="form-alert">{error}</div>}
     </div>

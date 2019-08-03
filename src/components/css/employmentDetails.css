@@ -91,6 +91,20 @@
 .empdet-radioGroup {
   height: 360px !important;
 }
+
+.srcdet-radioGroup > div > div > div {
+  align-items: center;
+}
+.srcdet-radioGroup > div > div > div > div + div {
+  width: 20px !important;
+  height: 20px !important;
+}
+.srcdet-radioGroup > div > div > div > div + div > div {
+  background: rgb(165, 206, 57) !important;
+}
+.srcdet-radioGroup {
+  height: 540px !important;
+}
 @keyframes loginShow {
   from {
     left: 100%;

@@ -9,32 +9,24 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import "./css/employmentDetails.css";
 
-const interviewTests = [
-  {
-    value: "T1_E1",
-    label: "INT_T1_E1 - HTML Developer <= 2 Years"
-  },
-  {
-    value: "T1_E2",
-    label: "INT_T1_E2 - HTML Developer > 2 Years and <= 4"
-  },
-  {
-    value: "T1_E3",
-    label: "INT_T1_E3 - HTML Developer > 4 Years"
-  }
-];
-
 class EmploymentDetails extends Form {
   state = {
     data: {
-      name: "",
-      dob: "",
-      nationality: "",
-      mobile: "",
-      email: "",
-      gender: "",
-      mstatus: "",
-      testType: null
+      papplied: "",
+      exp: "",
+      rexp: "",
+      reason: "",
+      notice: -1,
+      cctc: "",
+      ectc: "",
+      consuldetail: "",
+      otherdetail: "",
+      refName: "",
+      refId: "",
+      relationName: "",
+      relation: "",
+      area1: "",
+      area2: ""
     },
     errors: {},
     buttonStyle: {
@@ -45,40 +37,57 @@ class EmploymentDetails extends Form {
     startDate: new Date()
   };
   schema = {
-    name: Joi.string()
+    papplied: Joi.string()
       .required()
-      .email()
-      .label("Identity"),
-    dob: Joi.string()
+      .label("Post Applied for"),
+    exp: Joi.string()
       .required()
-      .email()
       .label("Identity"),
-    nationality: Joi.string()
+    rexp: Joi.string()
       .required()
-      .email()
       .label("Identity"),
-    mobile: Joi.string()
+    reason: Joi.string()
       .required()
-      .email()
       .label("Identity"),
-    email: Joi.string()
+    notice: Joi.string()
       .required()
-      .email()
       .label("Identity"),
-    gender: Joi.string()
+    cctc: Joi.string()
       .required()
-      .email()
       .label("Identity"),
-    mstatus: Joi.string()
+    ectc: Joi.string()
       .required()
-      .email()
       .label("Identity"),
-    testType: Joi.object()
-      .keys({
-        label: Joi.string().max(50),
-        value: Joi.string().max(50)
-      })
-      .label("testType")
+    source: Joi.object()
+      .required()
+      .label("Identity"),
+    consuldetail: Joi.object()
+      .required()
+      .label("Identity"),
+    otherdetail: Joi.object()
+      .required()
+      .label("Identity"),
+    refName: Joi.object()
+      .required()
+      .label("Identity"),
+    refId: Joi.object()
+      .required()
+      .label("Identity"),
+    relationName: Joi.object()
+      .required()
+      .label("Identity"),
+    relationId: Joi.object()
+      .required()
+      .label("Identity"),
+    relation: Joi.object()
+      .required()
+      .label("Identity"),
+    area1: Joi.object()
+      .required()
+      .label("Identity"),
+    area2: Joi.object()
+      .required()
+      .label("Identity")
   };
   handleDoBChange = date => {
     this.setState({
@@ -152,6 +161,80 @@ class EmploymentDetails extends Form {
             </div>
             {this.renderInput("cctc", "Current CTC per month [INR]")}
             {this.renderInput("ectc", "Expected CTC per month [INR]")}
+            <div
+              style={{ height: "94px", width: "90%" }}
+              className="srcdet-radioGroup"
+            >
+              <label
+                htmlFor="source"
+                style={{ color: "black", display: "block", marginBottom: "0" }}
+              >
+                Source <span className="smallLabel" />
+              </label>
+              <RadioGroup onChange={this.onChange}>
+                <RadioButton value="0">Walk-In</RadioButton>
+                <RadioButton value="1">Referrerd by Employee</RadioButton>
+                <RadioButton value="2">Consultancy</RadioButton>
+                {this.renderInput(
+                  "consuldetail",
+                  "<span class='smallLabel'>[Please specify]</span>"
+                )}
+                <RadioButton value="3">Job Portal/Others</RadioButton>
+                {this.renderInput(
+                  "otherdetail",
+                  "<span class='smallLabel'>[Please specify]</span>"
+                )}
+              </RadioGroup>
+            </div>
+            <div>
+              <div>
+                If referred by Employee
+                <br />
+                <span className="smallLabel">
+                  [It is mandatory to fill Name & Emp. ID of the referrer. Will
+                  not be considered for Referral if not specified]
+                </span>
+              </div>
+              <div>
+                {this.renderInput("refName", "Name")}
+                {this.renderInput("refId", "Emp. ID")}
+              </div>
+            </div>
+            <div>
+              <div>
+                Are you related to any Employee of this Company
+                <br />
+                <span className="smallLabel">
+                  [If Yes, please mention name, Relationship and Emp. ID]
+                </span>
+              </div>
+              <div>
+                {this.renderInput("relationName", "Name")}
+                {this.renderInput("relationId", "Emp. ID")}
+                {this.renderInput("relation", "Reationship")}
+              </div>
+            </div>
+            <div>
+              <div>
+                Have you applied for a job with us earlier ?
+                <br />
+                <span className="smallLabel">
+                  [Please specify the job applied for along with mm/yy]
+                </span>
+              </div>
+              <div>
+                <textarea />
+              </div>
+            </div>
+            <div>
+              <div>
+                Please specify, if you are a member of any professional, social,
+                civic or other body/organization
+              </div>
+              <div>
+                <textarea />
+              </div>
+            </div>
             <div className="dummy-space" />
             <div className="login-button">
               {this.renderButton(
