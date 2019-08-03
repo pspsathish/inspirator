@@ -8,7 +8,6 @@ const inputContainerStyle = {
 const formGroupStyle = {
   marginBottom: "0px",
   width: "90%",
-  height: "94px",
   color: "black"
 };
 const formGroupLabelStyle = {
@@ -84,11 +83,9 @@ const Input = ({ name, label, error, icon, ...rest }) => {
           /* placeholder={label} */
         />
       </div>
-      {error && (
-        <div className="form-alert" style={errorStyle}>
-          {error}
-        </div>
-      )}
+      <div className="form-alert">
+        {error && <div style={errorStyle}>{error}</div>}
+      </div>
     </div>
   );
 };

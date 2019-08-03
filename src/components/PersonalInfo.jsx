@@ -2,7 +2,6 @@ import React from "react";
 import Joi from "joi-browser";
 import Form from "./Form";
 import DatePicker from "react-datepicker";
-import { RadioGroup, RadioButton } from "react-radio-buttons";
 import { getDBService } from "../components/utils/dbservice";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -24,6 +23,31 @@ const nationality = [
   }
 ];
 
+const marital = [
+  {
+    value: "0",
+    label: "Single"
+  },
+  {
+    value: "1",
+    label: "Married"
+  },
+  {
+    value: "2",
+    label: "Separated"
+  }
+];
+const gender = [
+  {
+    value: "0",
+    label: "Male"
+  },
+  {
+    value: "1",
+    label: "Female"
+  }
+];
+
 class PersonalInfo extends Form {
   state = {
     data: {
@@ -32,8 +56,8 @@ class PersonalInfo extends Form {
       nationality: null,
       mobile: "",
       email: "",
-      gender: "",
-      mstatus: ""
+      gender: null,
+      marital: null
     },
     errors: {},
     buttonStyle: {
@@ -55,7 +79,7 @@ class PersonalInfo extends Form {
     nationality: Joi.object()
       .keys({
         label: Joi.string().max(50),
-        value: Joi.string().max(50)
+        value: Joi.number()
       })
       .label("nationality"),
     mobile: Joi.string()
@@ -66,14 +90,14 @@ class PersonalInfo extends Form {
       .required()
       .email()
       .label("Identity"),
-    gender: Joi.string()
-      .required()
-      .email()
-      .label("Identity"),
-    mstatus: Joi.string()
-      .required()
-      .email()
-      .label("Identity")
+    gender: Joi.object().keys({
+      label: Joi.string().max(50),
+      value: Joi.number()
+    }),
+    marital: Joi.object().keys({
+      label: Joi.string().max(50),
+      value: Joi.number()
+    })
   };
   componentDidMount() {
     const { data } = this.props;
@@ -124,7 +148,7 @@ class PersonalInfo extends Form {
                 htmlFor="dob"
                 style={{ color: "black", display: "block", marginBottom: "0" }}
               >
-                Date of Birth<sup class="supStar">*</sup>
+                Date of Birth<sup className="supStar">*</sup>
               </label>
               <DatePicker
                 name="dob"
@@ -144,37 +168,17 @@ class PersonalInfo extends Form {
               "Mobile Number<sup class='supStar'>*</sup>"
             )}
             {this.renderInput("email", "Email ID")}
-            <div
-              style={{ height: "94px", width: "90%" }}
-              className="pi-radioGroup"
-            >
-              <label
-                htmlFor="gender"
-                style={{ color: "black", display: "block", marginBottom: "0" }}
-              >
-                Gender<sup class="supStar">*</sup>
-              </label>
-              <RadioGroup onChange={this.onChange} horizontal>
-                <RadioButton value="0">Male</RadioButton>
-                <RadioButton value="1">Female</RadioButton>
-              </RadioGroup>
-            </div>
-            <div
-              style={{ height: "94px", width: "90%" }}
-              className="pi-radioGroup"
-            >
-              <label
-                htmlFor="marital"
-                style={{ color: "black", display: "block", marginBottom: "0" }}
-              >
-                Marital Status<sup class="supStar">*</sup>
-              </label>
-              <RadioGroup onChange={this.onChange} horizontal>
-                <RadioButton value="0">Single</RadioButton>
-                <RadioButton value="1">Married</RadioButton>
-                <RadioButton value="2">Separated</RadioButton>
-              </RadioGroup>
-            </div>
+
+            {this.renderRadios(
+              "gender",
+              "Gender<sup class='supStar'>*</sup>",
+              gender
+            )}
+            {this.renderRadios(
+              "marital",
+              "Marital Status<sup class='supStar'>*</sup>",
+              marital
+            )}
             <div className="dummy-space" />
             <div className="login-button">
               {this.renderButton(

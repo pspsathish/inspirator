@@ -19,6 +19,27 @@ label {
 .supStar {
   color: red;
 }
+
+.radio-group > div > div {
+  align-items: center;
+}
+.radio-group > div > div > div + div {
+  width: 20px !important;
+  height: 20px !important;
+}
+.radio-group > div > div > div + div > div {
+  background: rgb(165, 206, 57) !important;
+}
+.radio-group > div {
+  background-color: rgb(255, 255, 255) !important;
+  border: 1px solid rgb(66, 65, 67) !important;
+  color: rgb(54, 54, 54) !important;
+  box-shadow: none !important;
+  border-radius: 0.25rem !important;
+}
+.form-alert {
+  height: 20px;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

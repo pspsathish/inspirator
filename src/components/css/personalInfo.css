@@ -89,7 +89,11 @@
   background: rgb(165, 206, 57) !important;
 }
 .pi-radioGroup {
-  height: 114px !important;
+  margin-bottom: 20px;
+}
+.datePicker {
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
 }
 @keyframes loginShow {
   from {

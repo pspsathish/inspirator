@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Joi from "joi-browser";
 import DropDownList from "./dropDownList";
 import Input from "./Input";
+import Radios from "./Radios";
 /* import AgreeBox from "./agreeBox"; */
 import Button from "./Button";
 
@@ -29,13 +30,21 @@ class Form extends Component {
     //if (error) console.log(error.details);
     return error ? error.details[0].message : null;
   };
-  /*  validateDropDownProperty = (value, selectedOption) => {
+  validateDropDownProperty = (value, selectedOption) => {
     const obj = { [value]: selectedOption };
     const schema = { [value]: this.schema[value] };
     const { error } = Joi.validate(obj, schema);
     //if (error) console.log(error.details);
     return error ? error.details[0].message : null;
-  }; */
+  };
+  validateRadioProperty = (value, selectedOption) => {
+    console.log("validateRadioProperty");
+    const obj = { [value]: selectedOption };
+    const schema = { [value]: this.schema[value] };
+    const { error } = Joi.validate(obj, schema);
+    //if (error) console.log(error.details);
+    return error ? error.details[0].message : null;
+  };
   handleSubmit = e => {
     e.preventDefault();
     const errors = this.validate();
@@ -69,6 +78,17 @@ class Form extends Component {
     this.setState({ data, errors });
   };
 
+  handleRadioSelectionChange = (value, selectedOption) => {
+    const errors = { ...this.state.errors };
+    const errorMessage = this.validateRadioProperty(value, selectedOption);
+
+    if (errorMessage) errors[value] = errorMessage;
+    else delete errors[value];
+
+    const data = { ...this.state.data };
+    data[value] = selectedOption;
+    this.setState({ data, errors });
+  };
   /* validateAgreed = (name, value) => {
     const obj = { [name]: value };
     const schema = { [name]: this.schema[name] };
@@ -131,6 +151,18 @@ class Form extends Component {
         label={label}
         options={options}
         onChange={this.handleDropDownChange.bind(this, name)}
+        error={errors[name]}
+      />
+    );
+  }
+
+  renderRadios(name, label, options) {
+    const { errors } = this.state;
+    return (
+      <Radios
+        label={label}
+        options={options}
+        onChange={this.handleRadioSelectionChange.bind(this, name)}
         error={errors[name]}
       />
     );
