@@ -33,11 +33,7 @@ class Login extends Form {
   doSubmit = async () => {
     //console.log("doSubmit - LoginForm.jsx");
     this.props.showProgress();
-    await getDBService(
-      "checkUserExistance",
-      { email: "sathish@yahoo.com" },
-      this.goForward
-    );
+    await getDBService("checkUserExistance", this.state.data, this.goForward);
   };
 
   goForward = (result, { aid }, message) => {

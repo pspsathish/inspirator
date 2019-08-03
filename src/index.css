@@ -40,6 +40,9 @@ label {
 .form-alert {
   height: 20px;
 }
+.css-1uccc91-singleValue {
+  font-size: 18px;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

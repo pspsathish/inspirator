@@ -34,6 +34,7 @@ class Form extends Component {
     const obj = { [value]: selectedOption };
     const schema = { [value]: this.schema[value] };
     const { error } = Joi.validate(obj, schema);
+    console.log(error);
     //if (error) console.log(error.details);
     return error ? error.details[0].message : null;
   };
@@ -68,6 +69,7 @@ class Form extends Component {
 
   handleDropDownChange = (value, selectedOption) => {
     const errors = { ...this.state.errors };
+    console.log(errors);
     const errorMessage = this.validateDropDownProperty(value, selectedOption);
 
     if (errorMessage) errors[value] = errorMessage;

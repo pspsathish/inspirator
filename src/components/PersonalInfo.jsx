@@ -70,8 +70,9 @@ class PersonalInfo extends Form {
   schema = {
     name: Joi.string()
       .required()
-      .email()
-      .label("Identity"),
+      .min(3)
+      .max(50)
+      .label("Name"),
     dob: Joi.string()
       .required()
       .email()
@@ -81,15 +82,17 @@ class PersonalInfo extends Form {
         label: Joi.string().max(50),
         value: Joi.number()
       })
-      .label("nationality"),
-    mobile: Joi.string()
+      .label("Nationality"),
+    mobile: Joi.number()
       .required()
-      .email()
-      .label("Identity"),
+      .integer()
+      .min(1000000000)
+      .max(9999999999)
+      .label("Mobile Number"),
     email: Joi.string()
       .required()
       .email()
-      .label("Identity"),
+      .label("Email"),
     gender: Joi.object().keys({
       label: Joi.string().max(50),
       value: Joi.number()
@@ -101,8 +104,14 @@ class PersonalInfo extends Form {
   };
   componentDidMount() {
     const { data } = this.props;
-    this.setState({ data });
+    this.setState({ data }, this.initEmail);
   }
+  initEmail = () => {
+    const { page0data } = this.props;
+    const page1data = { ...this.state.data };
+    page1data.email = page0data.email;
+    this.setState({ data: page1data });
+  };
   handleDoBChange = date => {
     this.setState({
       startDate: date
@@ -167,7 +176,7 @@ class PersonalInfo extends Form {
               "mobile",
               "Mobile Number<sup class='supStar'>*</sup>"
             )}
-            {this.renderInput("email", "Email ID")}
+            {this.renderInput("email", "Email ID", "none", "text", true)}
 
             {this.renderRadios(
               "gender",

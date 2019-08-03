@@ -41,7 +41,6 @@ const inputIconStyle = {
   height: "40px"
 };
 const inputStyle = {
-  backgroundColor: "#fff",
   borderColor: "#dbdbdb",
   color: "#363636",
   /* boxShadow: "inset 0 1px 2px rgba(10,10,10,.5)", */

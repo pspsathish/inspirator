@@ -93,6 +93,7 @@ class Main extends Component {
                       goNext={this.increaseStep}
                       step={step}
                       data={page1.data}
+                      page0data={page0.data}
                     />
                   ) : null}
                   {step === 2 ? (
