@@ -29,7 +29,12 @@ const Radios = ({ label, options, error, onChange, ...rest }) => {
         }}
       />
       <div className="inputContainer" style={inputContainerStyle}>
-        <RadioGroup className="radio-group" onChange={onChange} horizontal>
+        <RadioGroup
+          className="radio-group"
+          onChange={onChange}
+          {...rest}
+          horizontal
+        >
           {options.map((option, index) => (
             <RadioButton key={option.label + option.value} value={option.value}>
               {option.label}

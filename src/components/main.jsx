@@ -12,7 +12,7 @@ class Main extends Component {
     super(props);
     this.state = {
       loading: false,
-      step: 1,
+      step: 0,
       page0: {
         data: {
           email: "" //email
@@ -22,11 +22,11 @@ class Main extends Component {
         data: {
           name: "sathish", //string, length:50
           dob: "05/05/1979", //string, date
-          nationality: null, //object
+          nationality: { value: 1, label: "Item 3" }, //object
           mobile: "9840945551", //number, >999999999
           email: "sathishkumar.s@spi-global.com", //email, but need to take from the login page0
-          gender: 0, //number
-          mstatus: 1 //number
+          gender: "", //string as Radio expect string
+          marital: "2" //string as Radio expect string
         }
       },
       subtitle: ["Login/Register to continue", "Fill your personal details"]

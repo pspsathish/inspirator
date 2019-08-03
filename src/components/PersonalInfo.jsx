@@ -2,6 +2,7 @@ import React from "react";
 import Joi from "joi-browser";
 import Form from "./Form";
 import DatePicker from "react-datepicker";
+import _ from "lodash";
 import { getDBService } from "../components/utils/dbservice";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -59,12 +60,16 @@ class PersonalInfo extends Form {
       gender: null,
       marital: null
     },
-    errors: {},
+    errors: {
+      nationality: "'Nationality' should not be empty.",
+      gender: "Choose 'Gender'",
+      marital: "Choose 'Marital Status'"
+    },
     buttonStyle: {
       background: "#424143",
       color: "#fff"
     },
-    disable: true,
+    disable: false,
     startDate: new Date()
   };
   schema = {
@@ -75,11 +80,10 @@ class PersonalInfo extends Form {
       .label("Name"),
     dob: Joi.string()
       .required()
-      .email()
-      .label("Identity"),
+      .label("Date of Birth"),
     nationality: Joi.object()
       .keys({
-        label: Joi.string().max(50),
+        label: Joi.string().max(40),
         value: Joi.number()
       })
       .label("Nationality"),
@@ -93,14 +97,14 @@ class PersonalInfo extends Form {
       .required()
       .email()
       .label("Email"),
-    gender: Joi.object().keys({
-      label: Joi.string().max(50),
-      value: Joi.number()
-    }),
-    marital: Joi.object().keys({
-      label: Joi.string().max(50),
-      value: Joi.number()
-    })
+    gender: Joi.number()
+      .required()
+      .integer()
+      .label("Gender"),
+    marital: Joi.number()
+      .required()
+      .integer()
+      .label("Marital Status")
   };
   componentDidMount() {
     const { data } = this.props;
@@ -111,6 +115,15 @@ class PersonalInfo extends Form {
     const page1data = { ...this.state.data };
     page1data.email = page0data.email;
     this.setState({ data: page1data });
+    const { nationality, gender, marital } = this.state.data;
+    //console.log(nationality);
+    let errors = { ...this.state.errors };
+    //console.log(errors);
+    if (nationality !== null) errors = _.omit(errors, ["nationality"]);
+    if (gender !== "") errors = _.omit(errors, ["gender"]);
+    if (marital !== "") errors = _.omit(errors, ["marital"]);
+    //console.log(errors);
+    this.setState({ errors });
   };
   handleDoBChange = date => {
     this.setState({

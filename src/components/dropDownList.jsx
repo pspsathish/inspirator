@@ -10,6 +10,10 @@ const formGroupStyle = {
 const formGroupLabelStyle = {
   marginBottom: "0px"
 };
+const errorStyle = {
+  fontSize: "12px",
+  color: "red"
+};
 const DropDownList = ({ label, options, error, ...rest }) => {
   return (
     <div className="form-group" style={formGroupStyle}>
@@ -20,7 +24,11 @@ const DropDownList = ({ label, options, error, ...rest }) => {
         }}
       />
       <Select {...rest} options={options} />
-      {error && <div className="form-alert">{error}</div>}
+      {error && (
+        <div className="form-alert">
+          {error && <div style={errorStyle}>{error}</div>}
+        </div>
+      )}
     </div>
   );
 };

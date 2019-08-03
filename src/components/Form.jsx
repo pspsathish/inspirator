@@ -12,12 +12,13 @@ class Form extends Component {
       abortEarly: false
     };
     const { error } = Joi.validate(this.state.data, this.schema, options);
+    //console.log(error);
     if (!error) return null;
-
+    //console.log("22---" + error);
     const errors = {};
     if (error.details !== undefined)
       for (let item of error.details) errors[item.path[0]] = item.message;
-
+    //console.log(errors);
     return errors;
   };
 
@@ -34,12 +35,10 @@ class Form extends Component {
     const obj = { [value]: selectedOption };
     const schema = { [value]: this.schema[value] };
     const { error } = Joi.validate(obj, schema);
-    console.log(error);
     //if (error) console.log(error.details);
     return error ? error.details[0].message : null;
   };
   validateRadioProperty = (value, selectedOption) => {
-    console.log("validateRadioProperty");
     const obj = { [value]: selectedOption };
     const schema = { [value]: this.schema[value] };
     const { error } = Joi.validate(obj, schema);
@@ -49,6 +48,7 @@ class Form extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const errors = this.validate();
+    //console.log(errors);
     this.setState({ errors: errors || {} });
     if (errors) return;
     this.doSubmit();
@@ -69,13 +69,14 @@ class Form extends Component {
 
   handleDropDownChange = (value, selectedOption) => {
     const errors = { ...this.state.errors };
-    console.log(errors);
+    //console.log(errors);
     const errorMessage = this.validateDropDownProperty(value, selectedOption);
 
     if (errorMessage) errors[value] = errorMessage;
     else delete errors[value];
 
     const data = { ...this.state.data };
+    //console.log(selectedOption);
     data[value] = selectedOption;
     this.setState({ data, errors });
   };
@@ -115,6 +116,8 @@ class Form extends Component {
   }; */
 
   renderButton(label, btnStyle, onClickHandler, disable) {
+    // console.log(disable);
+    // console.log(this.validate() || disable);
     return (
       <Button
         classProp={btnStyle}
@@ -147,27 +150,41 @@ class Form extends Component {
     );
   }
   renderDropDownList(name, label, options) {
-    const { errors } = this.state;
+    const { errors, data } = this.state;
+    //console.log(data[name]);
     return (
       <DropDownList
         label={label}
         options={options}
         onChange={this.handleDropDownChange.bind(this, name)}
         error={errors[name]}
+        value={data[name]}
       />
     );
   }
 
   renderRadios(name, label, options) {
-    const { errors } = this.state;
-    return (
-      <Radios
-        label={label}
-        options={options}
-        onChange={this.handleRadioSelectionChange.bind(this, name)}
-        error={errors[name]}
-      />
-    );
+    const { errors, data } = this.state;
+    if (data[name] !== "" && data[name] !== null) {
+      return (
+        <Radios
+          label={label}
+          options={options}
+          onChange={this.handleRadioSelectionChange.bind(this, name)}
+          error={errors[name]}
+          value={data[name]}
+        />
+      );
+    } else {
+      return (
+        <Radios
+          label={label}
+          options={options}
+          onChange={this.handleRadioSelectionChange.bind(this, name)}
+          error={errors[name]}
+        />
+      );
+    }
   }
   /* renderAgreeBox(name, label, errorMessage, options) {
     const { errors } = this.state;
