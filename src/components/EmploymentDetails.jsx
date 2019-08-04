@@ -1,7 +1,7 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./Form";
-import DatePicker from "react-datepicker";
+/* import DatePicker from "react-datepicker"; */
 import { RadioGroup, RadioButton } from "react-radio-buttons";
 import { getDBService } from "./utils/dbservice";
 

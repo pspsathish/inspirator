@@ -1,7 +1,6 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./Form";
-import DatePicker from "react-datepicker";
 import _ from "lodash";
 import { getDBService } from "../components/utils/dbservice";
 
@@ -53,7 +52,7 @@ class PersonalInfo extends Form {
   state = {
     data: {
       name: "",
-      dob: "",
+      dob: null,
       nationality: null,
       mobile: "",
       email: "",
@@ -63,14 +62,15 @@ class PersonalInfo extends Form {
     errors: {
       nationality: "'Nationality' should not be empty.",
       gender: "Choose 'Gender'",
-      marital: "Choose 'Marital Status'"
+      marital: "Choose 'Marital Status'",
+      dob: "'Date of Birth' should not be empty"
     },
     buttonStyle: {
       background: "#424143",
       color: "#fff"
     },
     disable: false,
-    startDate: new Date()
+    startDate: new Date("Thu May 03 1979")
   };
   schema = {
     name: Joi.string()
@@ -78,7 +78,7 @@ class PersonalInfo extends Form {
       .min(3)
       .max(50)
       .label("Name"),
-    dob: Joi.string()
+    dob: Joi.date()
       .required()
       .label("Date of Birth"),
     nationality: Joi.object()
@@ -115,17 +115,19 @@ class PersonalInfo extends Form {
     const page1data = { ...this.state.data };
     page1data.email = page0data.email;
     this.setState({ data: page1data });
-    const { nationality, gender, marital } = this.state.data;
+    const { nationality, gender, marital, dob } = this.state.data;
     //console.log(nationality);
     let errors = { ...this.state.errors };
     //console.log(errors);
     if (nationality !== null) errors = _.omit(errors, ["nationality"]);
     if (gender !== "") errors = _.omit(errors, ["gender"]);
     if (marital !== "") errors = _.omit(errors, ["marital"]);
+    if (dob !== "") errors = _.omit(errors, ["dob"]);
     //console.log(errors);
     this.setState({ errors });
   };
   handleDoBChange = date => {
+    console.log(date.toDateString());
     this.setState({
       startDate: date
     });
@@ -165,21 +167,11 @@ class PersonalInfo extends Form {
             autoComplete="off"
           >
             {this.renderInput("name", "Name<sup class='supStar'>*</sup>")}
-            <div style={{ height: "94px", width: "90%" }}>
-              <label
-                htmlFor="dob"
-                style={{ color: "black", display: "block", marginBottom: "0" }}
-              >
-                Date of Birth<sup className="supStar">*</sup>
-              </label>
-              <DatePicker
-                name="dob"
-                dateFormat="MM/dd/yyyy"
-                selected={this.state.startDate}
-                onChange={this.handleDoBChange}
-                className="datePicker"
-              />
-            </div>
+
+            {this.renderDates(
+              "dob",
+              "Date of Birth<sup class='supStar'>*</sup>"
+            )}
             {this.renderDropDownList(
               "nationality",
               "Nationality<sup class='supStar'>*</sup>",
@@ -213,7 +205,7 @@ class PersonalInfo extends Form {
             <div className="marginBottom-50" />
           </form>
 
-          <button onClick={this.handleDummyClick}>CONTINUE</button>
+          {/* <button onClick={this.handleDummyClick}>CONTINUE</button> */}
         </div>
       </div>
     );

@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import Login from "./LoginForm";
 import PersonalInfo from "./PersonalInfo";
 import EmploymentDetails from "./EmploymentDetails";
-import { MdAccountBox } from "react-icons/md";
+import { MdAccountBox, MdLock } from "react-icons/md";
+import { FaBuilding } from "react-icons/fa";
 
 import ProgressBar from "./utils/ProgressBar";
 
@@ -20,13 +21,13 @@ class Main extends Component {
       },
       page1: {
         data: {
-          name: "sathish", //string, length:50
-          dob: "05/05/1979", //string, date
-          nationality: { value: 1, label: "Item 3" }, //object
-          mobile: "9840945551", //number, >999999999
-          email: "sathishkumar.s@spi-global.com", //email, but need to take from the login page0
+          name: "", //string, length:50
+          dob: "", //string, date
+          nationality: {}, //object
+          mobile: "", //number, >999999999
+          email: "", //email, but need to take from the login page0
           gender: "", //string as Radio expect string
-          marital: "2" //string as Radio expect string
+          marital: "" //string as Radio expect string
         }
       },
       subtitle: ["Login/Register to continue", "Fill your personal details"]
@@ -108,9 +109,22 @@ class Main extends Component {
               </div>
             </div>
           </div>
-          <div className="ins-root-main-icon">
-            <MdAccountBox className="ins-root-main-icon-main" />
-          </div>
+
+          {step === 0 ? (
+            <div className="ins-root-main-icon">
+              <MdLock className="ins-root-main-icon-main" />
+            </div>
+          ) : null}
+          {step === 1 ? (
+            <div className="ins-root-main-icon">
+              <MdAccountBox className="ins-root-main-icon-main" />
+            </div>
+          ) : null}
+          {step === 2 ? (
+            <div className="ins-root-main-icon">
+              <FaBuilding className="ins-root-main-icon-main" />
+            </div>
+          ) : null}
         </div>
       </React.Fragment>
     );

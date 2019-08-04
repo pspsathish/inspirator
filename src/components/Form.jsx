@@ -3,6 +3,7 @@ import Joi from "joi-browser";
 import DropDownList from "./dropDownList";
 import Input from "./Input";
 import Radios from "./Radios";
+import Dates from "./Dates";
 /* import AgreeBox from "./agreeBox"; */
 import Button from "./Button";
 
@@ -39,6 +40,13 @@ class Form extends Component {
     return error ? error.details[0].message : null;
   };
   validateRadioProperty = (value, selectedOption) => {
+    const obj = { [value]: selectedOption };
+    const schema = { [value]: this.schema[value] };
+    const { error } = Joi.validate(obj, schema);
+    //if (error) console.log(error.details);
+    return error ? error.details[0].message : null;
+  };
+  validateDateProperty = (value, selectedOption) => {
     const obj = { [value]: selectedOption };
     const schema = { [value]: this.schema[value] };
     const { error } = Joi.validate(obj, schema);
@@ -92,6 +100,20 @@ class Form extends Component {
     data[value] = selectedOption;
     this.setState({ data, errors });
   };
+
+  handleDateSelectionChange = (value, selectedOption) => {
+    const errors = { ...this.state.errors };
+    const errorMessage = this.validateDateProperty(value, selectedOption);
+
+    if (errorMessage) errors[value] = errorMessage;
+    else delete errors[value];
+
+    const data = { ...this.state.data };
+    selectedOption !== null
+      ? (data[value] = selectedOption.toDateString())
+      : (data[value] = null);
+    this.setState({ data, errors });
+  };
   /* validateAgreed = (name, value) => {
     const obj = { [name]: value };
     const schema = { [name]: this.schema[name] };
@@ -116,8 +138,6 @@ class Form extends Component {
   }; */
 
   renderButton(label, btnStyle, onClickHandler, disable) {
-    // console.log(disable);
-    // console.log(this.validate() || disable);
     return (
       <Button
         classProp={btnStyle}
@@ -181,6 +201,27 @@ class Form extends Component {
           label={label}
           options={options}
           onChange={this.handleRadioSelectionChange.bind(this, name)}
+          error={errors[name]}
+        />
+      );
+    }
+  }
+  renderDates(name, label) {
+    const { errors, data } = this.state;
+    if (data[name] !== "" && data[name] !== null) {
+      return (
+        <Dates
+          label={label}
+          onChange={this.handleDateSelectionChange.bind(this, name)}
+          error={errors[name]}
+          selected={new Date(data[name])}
+        />
+      );
+    } else {
+      return (
+        <Dates
+          label={label}
+          onChange={this.handleDateSelectionChange.bind(this, name)}
           error={errors[name]}
         />
       );
