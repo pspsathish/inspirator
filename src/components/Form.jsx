@@ -4,7 +4,7 @@ import DropDownList from "./dropDownList";
 import Input from "./Input";
 import Radios from "./Radios";
 import Dates from "./Dates";
-/* import AgreeBox from "./agreeBox"; */
+import AgreeBox from "./agreeBox";
 import Button from "./Button";
 
 class Form extends Component {
@@ -114,7 +114,7 @@ class Form extends Component {
       : (data[value] = null);
     this.setState({ data, errors });
   };
-  /* validateAgreed = (name, value) => {
+  validateAgreed = (name, value) => {
     const obj = { [name]: value };
     const schema = { [name]: this.schema[name] };
     const { error } = Joi.validate(obj, schema);
@@ -123,8 +123,8 @@ class Form extends Component {
       //console.log(error.message);
       //console.log(error.details);
       return error ? error.message : null;
-  }; */
-  /* handleAgreeBox = (error, { target: checkbox }) => {
+  };
+  handleAgreeBox = (error, { target: checkbox }) => {
     const errors = { ...this.state.errors };
     //const errorMessage = checkbox.checked ? "" : error;
     const errorMessage = this.validateAgreed(checkbox.name, checkbox.checked);
@@ -135,7 +135,7 @@ class Form extends Component {
     const data = { ...this.state.data };
     data[checkbox.name] = checkbox.checked;
     this.setState({ data, errors });
-  }; */
+  };
 
   renderButton(label, btnStyle, onClickHandler, disable) {
     return (
@@ -227,7 +227,7 @@ class Form extends Component {
       );
     }
   }
-  /* renderAgreeBox(name, label, errorMessage, options) {
+  renderAgreeBox(name, label, errorMessage, options) {
     const { errors } = this.state;
     return (
       <AgreeBox
@@ -239,7 +239,7 @@ class Form extends Component {
         name={name}
       />
     );
-  } */
+  }
 }
 
 export default Form;

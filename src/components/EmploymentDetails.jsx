@@ -175,17 +175,19 @@ class EmploymentDetails extends Form {
                 <RadioButton value="0">Walk-In</RadioButton>
                 <RadioButton value="1">Referrerd by Employee</RadioButton>
                 <RadioButton value="2">Consultancy</RadioButton>
-                {this.renderInput(
-                  "consuldetail",
-                  "<span class='smallLabel'>[Please specify]</span>"
-                )}
                 <RadioButton value="3">Job Portal/Others</RadioButton>
-                {this.renderInput(
-                  "otherdetail",
-                  "<span class='smallLabel'>[Please specify]</span>"
-                )}
               </RadioGroup>
+
+              {this.renderInput(
+                "otherdetail",
+                "<span class='smallLabel'>[Please specify]</span>"
+              )}
             </div>
+            {this.renderAgreeBox(
+              "terms",
+              "I agree to the terms and conditions.",
+              "Please check terms and conditions."
+            )}
             <div>
               <div>
                 If referred by Employee
