@@ -75,6 +75,7 @@
 }
 .ins-root-main-right-container-panel {
   width: 80%;
+  max-width:575px;
   height: 100%;
   color: #a5ce39;
   font-family: "robotolight", sans-serif;

@@ -18,8 +18,16 @@ const errorStyle = {
   fontSize: "12px",
   color: "red"
 };
+const radioGroupStyle = {
+  width: "100%",
+  display: "inlineFlex"
+};
+const vradioGroupStyle = {
+  width: "100%"
+};
 
-const Radios = ({ label, options, error, onChange, ...rest }) => {
+const Radios = ({ label, options, error, type, onChange, ...rest }) => {
+  const styled = type === "v" ? vradioGroupStyle : radioGroupStyle;
   return (
     <div className="form-group" style={formGroupStyle}>
       <label
@@ -34,9 +42,14 @@ const Radios = ({ label, options, error, onChange, ...rest }) => {
           onChange={onChange}
           {...rest}
           horizontal
+          /*  style={styled} */
         >
           {options.map((option, index) => (
-            <RadioButton key={option.label + option.value} value={option.value}>
+            <RadioButton
+              key={option.label + option.value}
+              value={option.value}
+              style={{ width: "100px" }}
+            >
               {option.label}
             </RadioButton>
           ))}

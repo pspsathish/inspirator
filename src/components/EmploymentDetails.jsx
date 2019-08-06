@@ -9,16 +9,69 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import "./css/employmentDetails.css";
 
+const postappliedfor = [
+  {
+    value: "0",
+    label: "Item 1"
+  },
+  {
+    value: "1",
+    label: "Item 2"
+  },
+  {
+    value: "2",
+    label: "Item 3"
+  }
+];
+
+const notice = [
+  {
+    value: "0",
+    label: "Immediate"
+  },
+  {
+    value: "1",
+    label: "15 days"
+  },
+  {
+    value: "2",
+    label: "30 days"
+  },
+  {
+    value: "3",
+    label: "60 days or more"
+  }
+];
+
+const source = [
+  {
+    value: "0",
+    label: "Walk-In"
+  },
+  {
+    value: "1",
+    label: "Referrerd by Employee"
+  },
+  {
+    value: "2",
+    label: "Consultancy"
+  },
+  {
+    value: "3",
+    label: "Job Portal/Others"
+  }
+];
 class EmploymentDetails extends Form {
   state = {
     data: {
-      papplied: "",
-      exp: "",
+      postappliedfor: null,
+      texp: "",
       rexp: "",
-      reason: "",
-      notice: -1,
+      reasonjobchange: "",
+      notice: null,
       cctc: "",
       ectc: "",
+      source: null,
       consuldetail: "",
       otherdetail: "",
       refName: "",
@@ -28,7 +81,11 @@ class EmploymentDetails extends Form {
       area1: "",
       area2: ""
     },
-    errors: {},
+    errors: {
+      postappliedfor: "'Post Applied for' should not be empty.",
+      notice: "Choose 'Notice Period'",
+      source: "Choose 'Source'"
+    },
     buttonStyle: {
       background: "#424143",
       color: "#fff"
@@ -37,30 +94,35 @@ class EmploymentDetails extends Form {
     startDate: new Date()
   };
   schema = {
-    papplied: Joi.string()
+    postappliedfor: Joi.string()
       .required()
       .label("Post Applied for"),
-    exp: Joi.string()
+    texp: Joi.number()
       .required()
-      .label("Identity"),
-    rexp: Joi.string()
+      .label("Total Experience"),
+    rexp: Joi.number()
       .required()
-      .label("Identity"),
-    reason: Joi.string()
+      .label("Relevant Experience"),
+    reasonjobchange: Joi.string()
       .required()
-      .label("Identity"),
-    notice: Joi.string()
+      .label("Reason")
+      .max(100),
+    notice: Joi.number()
       .required()
-      .label("Identity"),
-    cctc: Joi.string()
+      .integer()
+      .label("Notice Period"),
+    cctc: Joi.number()
       .required()
-      .label("Identity"),
-    ectc: Joi.string()
+      .integer()
+      .label("Current CTC"),
+    ectc: Joi.number()
       .required()
-      .label("Identity"),
-    source: Joi.object()
+      .integer()
+      .label("Expected CTC"),
+    source: Joi.number()
       .required()
-      .label("Identity"),
+      .integer()
+      .label("Source"),
     consuldetail: Joi.object()
       .required()
       .label("Identity"),
@@ -128,61 +190,46 @@ class EmploymentDetails extends Form {
             onSubmit={this.handleSubmit}
             autoComplete="off"
           >
-            {this.renderInput("papplied", "Post Applied for")}
+            {this.renderDropDownList(
+              "postappliedfor",
+              "Post Applied for<sup class='supStar'>*</sup>",
+              postappliedfor
+            )}
             {this.renderInput(
-              "exp",
-              "Total Experience <span class='smallLabel'>[in years]</span>"
+              "texp",
+              "Total Experience <span class='smallLabel'>[in years]</span><sup class='supStar'>*</sup>"
             )}
             {this.renderInput(
               "rexp",
-              "Relevant Experience <span class='smallLabel'>[in years]</span>"
+              "Relevant Experience <span class='smallLabel'>[in years]</span><sup class='supStar'>*</sup>"
             )}
 
-            {this.renderInput("reason", "Reason for Change in job")}
-            <div
-              style={{ height: "94px", width: "90%" }}
-              className="empdet-radioGroup"
-            >
-              <label
-                htmlFor="notice"
-                style={{ color: "black", display: "block", marginBottom: "0" }}
-              >
-                Notice Period{" "}
-                <span className="smallLabel">
-                  [time required to join, if selected]
-                </span>
-              </label>
-              <RadioGroup onChange={this.onChange}>
-                <RadioButton value="0">Immediate</RadioButton>
-                <RadioButton value="1">15 days</RadioButton>
-                <RadioButton value="2">30 days</RadioButton>
-                <RadioButton value="3">60 days or more</RadioButton>
-              </RadioGroup>
-            </div>
-            {this.renderInput("cctc", "Current CTC per month [INR]")}
-            {this.renderInput("ectc", "Expected CTC per month [INR]")}
-            <div
-              style={{ height: "94px", width: "90%" }}
-              className="srcdet-radioGroup"
-            >
-              <label
-                htmlFor="source"
-                style={{ color: "black", display: "block", marginBottom: "0" }}
-              >
-                Source <span className="smallLabel" />
-              </label>
-              <RadioGroup onChange={this.onChange}>
-                <RadioButton value="0">Walk-In</RadioButton>
-                <RadioButton value="1">Referrerd by Employee</RadioButton>
-                <RadioButton value="2">Consultancy</RadioButton>
-                <RadioButton value="3">Job Portal/Others</RadioButton>
-              </RadioGroup>
+            {this.renderInput(
+              "reasonjobchange",
+              "Reason for Change in job<sup class='supStar'>*</sup>"
+            )}
 
-              {this.renderInput(
-                "otherdetail",
-                "<span class='smallLabel'>[Please specify]</span>"
-              )}
-            </div>
+            {this.renderRadios(
+              "notice",
+              "Notice Period <span class='smallLabel'>[time required to join, if selected]</span><sup class='supStar'>*</sup>",
+              notice,
+              "v"
+            )}
+            {this.renderInput(
+              "cctc",
+              "Current CTC per month [INR]<sup class='supStar'>*</sup>"
+            )}
+            {this.renderInput(
+              "ectc",
+              "Expected CTC per month [INR]<sup class='supStar'>*</sup>"
+            )}
+
+            {this.renderRadios(
+              "source",
+              "Source <span class='smallLabel' /><sup class='supStar'>*</sup>",
+              source,
+              "v"
+            )}
             {this.renderAgreeBox(
               "terms",
               "I agree to the terms and conditions.",

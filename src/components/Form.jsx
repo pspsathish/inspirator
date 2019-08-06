@@ -183,7 +183,7 @@ class Form extends Component {
     );
   }
 
-  renderRadios(name, label, options) {
+  renderRadios(name, label, options, type) {
     const { errors, data } = this.state;
     if (data[name] !== "" && data[name] !== null) {
       return (
@@ -193,6 +193,7 @@ class Form extends Component {
           onChange={this.handleRadioSelectionChange.bind(this, name)}
           error={errors[name]}
           value={data[name]}
+          type={type}
         />
       );
     } else {
