@@ -203,6 +203,7 @@ class Form extends Component {
           options={options}
           onChange={this.handleRadioSelectionChange.bind(this, name)}
           error={errors[name]}
+          type={type}
         />
       );
     }
@@ -229,7 +230,7 @@ class Form extends Component {
     }
   }
   renderAgreeBox(name, label, errorMessage, options) {
-    const { errors } = this.state;
+    const { errors, data } = this.state;
     return (
       <AgreeBox
         label={label}
@@ -238,6 +239,7 @@ class Form extends Component {
         onChange={this.handleAgreeBox.bind(this, errorMessage)}
         error={errors[name]}
         name={name}
+        checked={data[name]}
       />
     );
   }

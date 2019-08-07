@@ -2,7 +2,6 @@ import React from "react";
 import Joi from "joi-browser";
 import Form from "./Form";
 /* import DatePicker from "react-datepicker"; */
-import { RadioGroup, RadioButton } from "react-radio-buttons";
 import { getDBService } from "./utils/dbservice";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -72,14 +71,13 @@ class EmploymentDetails extends Form {
       cctc: "",
       ectc: "",
       source: null,
-      consuldetail: "",
-      otherdetail: "",
-      refName: "",
-      refId: "",
-      relationName: "",
-      relation: "",
-      area1: "",
-      area2: ""
+      srcconsult: "",
+      srcothers: "",
+      srcrefempname: "",
+      srcrefempid: "",
+      relatedto: false,
+      appliedalready: [],
+      specify: ""
     },
     errors: {
       postappliedfor: "'Post Applied for' should not be empty.",
@@ -94,8 +92,11 @@ class EmploymentDetails extends Form {
     startDate: new Date()
   };
   schema = {
-    postappliedfor: Joi.string()
-      .required()
+    postappliedfor: Joi.object()
+      .keys({
+        label: Joi.string().max(40),
+        value: Joi.number()
+      })
       .label("Post Applied for"),
     texp: Joi.number()
       .required()
@@ -123,33 +124,11 @@ class EmploymentDetails extends Form {
       .required()
       .integer()
       .label("Source"),
-    consuldetail: Joi.object()
-      .required()
-      .label("Identity"),
-    otherdetail: Joi.object()
-      .required()
-      .label("Identity"),
-    refName: Joi.object()
-      .required()
-      .label("Identity"),
-    refId: Joi.object()
-      .required()
-      .label("Identity"),
-    relationName: Joi.object()
-      .required()
-      .label("Identity"),
-    relationId: Joi.object()
-      .required()
-      .label("Identity"),
-    relation: Joi.object()
-      .required()
-      .label("Identity"),
-    area1: Joi.object()
-      .required()
-      .label("Identity"),
-    area2: Joi.object()
-      .required()
-      .label("Identity")
+    srcconsult: Joi.string().label("Consultancy Reference"),
+    srcothers: Joi.string().label("Job Portal/Others Reference"),
+    srcrefempname: Joi.string().label("Referred Employee Name"),
+    srcrefempid: Joi.string().label("Referred Employee ID"),
+    relatedto: Joi.boolean().label("Employee Relation")
   };
   handleDoBChange = date => {
     this.setState({
@@ -181,6 +160,7 @@ class EmploymentDetails extends Form {
     }
   };
   loginPanel = () => {
+    // const { source } = this.state.data;
     return (
       <div className={"empDetailsForm-login show"}>
         <div className="empDetailsForm-title">Fill your employment details</div>
@@ -230,56 +210,78 @@ class EmploymentDetails extends Form {
               source,
               "v"
             )}
-            {this.renderAgreeBox(
-              "terms",
-              "I agree to the terms and conditions.",
-              "Please check terms and conditions."
-            )}
-            <div>
-              <div>
-                If referred by Employee
-                <br />
-                <span className="smallLabel">
+            {this.state.data.source === "2" ? (
+              <div className="formItemSub">
+                {this.renderInput(
+                  "srcconsult",
+                  "[Please specify the Consultancy]<sup class='supStar'>*</sup>"
+                )}
+              </div>
+            ) : null}
+            {this.state.data.source === "3" ? (
+              <div className="formItemSub">
+                {this.renderInput(
+                  "srcothers",
+                  "[Please specify the Job Portal/Others]<sup class='supStar'>*</sup>"
+                )}
+              </div>
+            ) : null}
+            {this.state.data.source === "1" ? (
+              <div className="formItemSub">
+                If referred by Employee{" "}
+                <div className="smallLabel">
                   [It is mandatory to fill Name & Emp. ID of the referrer. Will
                   not be considered for Referral if not specified]
-                </span>
+                </div>
+                {this.renderInput(
+                  "srcrefempname",
+                  "Name<sup class='supStar'>*</sup>"
+                )}
+                {this.renderInput(
+                  "srcrefempid",
+                  "Emp. ID<sup class='supStar'>*</sup>"
+                )}
               </div>
-              <div>
-                {this.renderInput("refName", "Name")}
-                {this.renderInput("refId", "Emp. ID")}
+            ) : null}
+
+            {this.renderAgreeBox(
+              "relatedto",
+              "Are you related to any Employee of this Company ? <div class='smallLabel'>[If Yes, please mention name, Relationship and Emp. ID]</div>",
+              "Please check terms and conditions."
+            )}
+            {this.state.data.relatedto ? (
+              <div className="formItemSub">
+                {this.renderInput(
+                  "srcrefempname",
+                  "Name<sup class='supStar'>*</sup>"
+                )}
+                {this.renderInput(
+                  "srcrefempid",
+                  "Emp. ID<sup class='supStar'>*</sup>"
+                )}
+                {this.renderInput(
+                  "srcrefempid",
+                  "Relationship<sup class='supStar'>*</sup>"
+                )}
               </div>
-            </div>
-            <div>
-              <div>
-                Are you related to any Employee of this Company
-                <br />
-                <span className="smallLabel">
-                  [If Yes, please mention name, Relationship and Emp. ID]
-                </span>
-              </div>
-              <div>
-                {this.renderInput("relationName", "Name")}
-                {this.renderInput("relationId", "Emp. ID")}
-                {this.renderInput("relation", "Reationship")}
-              </div>
-            </div>
-            <div>
-              <div>
+            ) : null}
+            <div className="formDivs">
+              <label>
                 Have you applied for a job with us earlier ?
                 <br />
                 <span className="smallLabel">
                   [Please specify the job applied for along with mm/yy]
                 </span>
-              </div>
+              </label>
               <div>
                 <textarea />
               </div>
             </div>
-            <div>
-              <div>
+            <div className="formDivs">
+              <label>
                 Please specify, if you are a member of any professional, social,
                 civic or other body/organization
-              </div>
+              </label>
               <div>
                 <textarea />
               </div>

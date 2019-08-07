@@ -148,7 +148,7 @@ class PersonalInfo extends Form {
   goForward = (result, { aid }, message) => {
     if (result === "success") {
       this.props.hideProgress();
-      this.props.goNext();
+      this.props.goNext(this.state.data);
     } else {
       //this.setErrorText(message);
     }

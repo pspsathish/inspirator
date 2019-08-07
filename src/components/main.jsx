@@ -13,7 +13,7 @@ class Main extends Component {
     super(props);
     this.state = {
       loading: false,
-      step: 1,
+      step: 2,
       page0: {
         data: {
           email: "" //email
@@ -42,6 +42,9 @@ class Main extends Component {
   increaseStep = data => {
     if (this.state.step === 0) {
       this.setState({ page0: { data: data } });
+    }
+    if (this.state.step === 1) {
+      this.setState({ page1: { data: data } });
     }
     this.setState({ step: this.state.step + 1 });
   };
