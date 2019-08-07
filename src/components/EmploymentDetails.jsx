@@ -76,7 +76,10 @@ class EmploymentDetails extends Form {
       srcrefempname: "",
       srcrefempid: "",
       relatedto: false,
-      appliedalready: [],
+      relatedname: "",
+      relatedempid: "",
+      relatedrelation: "",
+      appliedalready: "",
       specify: ""
     },
     errors: {
@@ -128,7 +131,12 @@ class EmploymentDetails extends Form {
     srcothers: Joi.string().label("Job Portal/Others Reference"),
     srcrefempname: Joi.string().label("Referred Employee Name"),
     srcrefempid: Joi.string().label("Referred Employee ID"),
-    relatedto: Joi.boolean().label("Employee Relation")
+    relatedto: Joi.boolean().label("Employee Relation"),
+    relatedname: Joi.string().label("Relation Name"),
+    relatedempid: Joi.string().label("Relation Employee ID"),
+    relatedrelation: Joi.string().label("Relationship"),
+    appliedalready: Joi.string().label("Applied Already"),
+    specify: Joi.string().label("Member")
   };
   handleDoBChange = date => {
     this.setState({
@@ -252,15 +260,15 @@ class EmploymentDetails extends Form {
             {this.state.data.relatedto ? (
               <div className="formItemSub">
                 {this.renderInput(
-                  "srcrefempname",
+                  "relatedname",
                   "Name<sup class='supStar'>*</sup>"
                 )}
                 {this.renderInput(
-                  "srcrefempid",
+                  "relatedempid",
                   "Emp. ID<sup class='supStar'>*</sup>"
                 )}
                 {this.renderInput(
-                  "srcrefempid",
+                  "relatedrelation",
                   "Relationship<sup class='supStar'>*</sup>"
                 )}
               </div>

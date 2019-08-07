@@ -13,9 +13,9 @@ class Form extends Component {
       abortEarly: false
     };
     const { error } = Joi.validate(this.state.data, this.schema, options);
-    //console.log(error);
+    console.log(error);
     if (!error) return null;
-    //console.log("22---" + error);
+    console.log("22---" + error);
     const errors = {};
     if (error.details !== undefined)
       for (let item of error.details) errors[item.path[0]] = item.message;
@@ -71,9 +71,7 @@ class Form extends Component {
     const data = { ...this.state.data };
     data[input.name] = input.value;
     this.setState({ data, errors });
-  }; /* <button disabled={this.validate()} className="btn btn-primary">
-        {label}
-      </button> */
+  };
 
   handleDropDownChange = (value, selectedOption) => {
     const errors = { ...this.state.errors };

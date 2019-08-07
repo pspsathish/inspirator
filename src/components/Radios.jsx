@@ -16,7 +16,9 @@ const formGroupLabelStyle = {
 };
 const errorStyle = {
   fontSize: "12px",
-  color: "red"
+  color: "red",
+  top: "-16px",
+  position: "relative"
 };
 const radioGroupStyle1 = { display: "inline-flex", width: "100%" };
 const radioGroupStyle2 = {

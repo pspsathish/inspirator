@@ -10,8 +10,7 @@ const formGroupStyle = {
   alignItems: "center"
 };
 const formGroupLabelStyle = {
-  color: "black",
-  fontSize: "smaller"
+  color: "black"
 };
 const formCheckBoxStyle = {
   width: "50px"
