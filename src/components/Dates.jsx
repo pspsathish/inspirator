@@ -1,7 +1,6 @@
 import React from "react";
 import DatePicker from "react-datepicker";
 const dateContainerStyle = {
-  backgroundColor: "#fff",
   position: "relative",
   width: "100%",
   display: "flex"
@@ -19,7 +18,7 @@ const errorStyle = {
   color: "red"
 };
 
-const Dates = ({ label, error, onChange, ...rest }) => {
+const Dates = ({ label, error, disabled, onChange, ...rest }) => {
   return (
     <div className="form-group" style={formGroupStyle}>
       <label
@@ -35,6 +34,7 @@ const Dates = ({ label, error, onChange, ...rest }) => {
           dateFormat="MM/dd/yyyy"
           onChange={onChange}
           className="datePicker"
+          disabled={disabled}
           {...rest}
         />
       </div>

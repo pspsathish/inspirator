@@ -16,7 +16,10 @@ class Main extends Component {
       step: 2,
       page0: {
         data: {
-          email: "" //email
+          email: "",
+          name: "",
+          mobile: "",
+          dob: null
         }
       },
       page1: {

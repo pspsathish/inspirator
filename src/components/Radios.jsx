@@ -14,7 +14,11 @@ const formGroupStyle = {
 const formGroupLabelStyle = {
   marginBottom: "0px"
 };
-const errorStyle = {
+const errorStyle1 = {
+  fontSize: "12px",
+  color: "red"
+};
+const errorStyle2 = {
   fontSize: "12px",
   color: "red",
   top: "-16px",
@@ -52,7 +56,9 @@ const Radios = ({ label, options, error, type, onChange, ...rest }) => {
         </RadioGroup>
       </div>
       <div className="form-alert">
-        {error && <div style={errorStyle}>{error}</div>}
+        {error && (
+          <div style={arrangement ? errorStyle1 : errorStyle2}>{error}</div>
+        )}
       </div>
     </div>
   );

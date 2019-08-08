@@ -9,13 +9,21 @@ import Button from "./Button";
 
 class Form extends Component {
   validate = () => {
+    /*     const schema = Joi.object({
+      a: Joi.number(),
+      b: Joi.string(),
+      c: Joi.number().required()
+    }).without("a", "c");
+    const err = schema.validate({ c: 9 });
+    console.log("err=====" + err.error); */
     const options = {
-      abortEarly: false
+      //abortEarly: false
+      allowUnknown: true
     };
     const { error } = Joi.validate(this.state.data, this.schema, options);
-    console.log(error);
+    //console.log("-----" + error);
     if (!error) return null;
-    console.log("22---" + error);
+    //console.log("22---" + error);
     const errors = {};
     if (error.details !== undefined)
       for (let item of error.details) errors[item.path[0]] = item.message;
@@ -148,9 +156,9 @@ class Form extends Component {
   renderInput(
     name,
     label,
+    disabled = false,
     icon = "none",
     type = "text",
-    disabled = false,
     dependon = null
   ) {
     const { data, errors } = this.state;
@@ -206,7 +214,7 @@ class Form extends Component {
       );
     }
   }
-  renderDates(name, label) {
+  renderDates(name, label, disabled) {
     const { errors, data } = this.state;
     if (data[name] !== "" && data[name] !== null) {
       return (
@@ -215,6 +223,7 @@ class Form extends Component {
           onChange={this.handleDateSelectionChange.bind(this, name)}
           error={errors[name]}
           selected={new Date(data[name])}
+          disabled={disabled}
         />
       );
     } else {
@@ -223,6 +232,7 @@ class Form extends Component {
           label={label}
           onChange={this.handleDateSelectionChange.bind(this, name)}
           error={errors[name]}
+          disabled={disabled}
         />
       );
     }

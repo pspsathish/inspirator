@@ -35,16 +35,6 @@
 }
 .showMe {
 }
-.datePicker {
-  background-color: rgb(255, 255, 255);
-  border: 1px solid rgb(66, 65, 67);
-  color: rgb(54, 54, 54);
-  width: 100%;
-  display: table-cell;
-  font-size: 18px;
-  box-shadow: none;
-  height: 40px;
-}
 .css-yk16xz-control {
   background-color: rgb(255, 255, 255) !important;
   border: 1px solid rgb(66, 65, 67) !important;
@@ -90,10 +80,6 @@
 }
 .pi-radioGroup {
   margin-bottom: 20px;
-}
-.datePicker {
-  padding: 0.375rem 0.75rem;
-  border-radius: 0.25rem;
 }
 @keyframes loginShow {
   from {

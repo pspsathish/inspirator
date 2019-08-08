@@ -1,6 +1,7 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./Form";
+import _ from "lodash";
 /* import DatePicker from "react-datepicker"; */
 import { getDBService } from "./utils/dbservice";
 
@@ -9,6 +10,21 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./css/employmentDetails.css";
 
 const postappliedfor = [
+  {
+    value: "0",
+    label: "Item 1"
+  },
+  {
+    value: "1",
+    label: "Item 2"
+  },
+  {
+    value: "2",
+    label: "Item 3"
+  }
+];
+
+const reason = [
   {
     value: "0",
     label: "Item 1"
@@ -42,7 +58,7 @@ const notice = [
   }
 ];
 
-const source = [
+const sourcedata = [
   {
     value: "0",
     label: "Walk-In"
@@ -85,7 +101,8 @@ class EmploymentDetails extends Form {
     errors: {
       postappliedfor: "'Post Applied for' should not be empty.",
       notice: "Choose 'Notice Period'",
-      source: "Choose 'Source'"
+      source: "Choose 'Source'",
+      reason: "Choose 'Reason for Change in job'"
     },
     buttonStyle: {
       background: "#424143",
@@ -96,6 +113,7 @@ class EmploymentDetails extends Form {
   };
   schema = {
     postappliedfor: Joi.object()
+      .required()
       .keys({
         label: Joi.string().max(40),
         value: Joi.number()
@@ -107,10 +125,13 @@ class EmploymentDetails extends Form {
     rexp: Joi.number()
       .required()
       .label("Relevant Experience"),
-    reasonjobchange: Joi.string()
+    reasonjobchange: Joi.object()
       .required()
-      .label("Reason")
-      .max(100),
+      .keys({
+        label: Joi.string().max(40),
+        value: Joi.number()
+      })
+      .label("Reason"),
     notice: Joi.number()
       .required()
       .integer()
@@ -127,16 +148,16 @@ class EmploymentDetails extends Form {
       .required()
       .integer()
       .label("Source"),
-    srcconsult: Joi.string().label("Consultancy Reference"),
+    /* srcconsult: Joi.string().label("Consultancy Reference"),
     srcothers: Joi.string().label("Job Portal/Others Reference"),
     srcrefempname: Joi.string().label("Referred Employee Name"),
-    srcrefempid: Joi.string().label("Referred Employee ID"),
+    srcrefempid: Joi.string().label("Referred Employee ID"), */
     relatedto: Joi.boolean().label("Employee Relation"),
-    relatedname: Joi.string().label("Relation Name"),
+    /* relatedname: Joi.string().label("Relation Name"),
     relatedempid: Joi.string().label("Relation Employee ID"),
-    relatedrelation: Joi.string().label("Relationship"),
-    appliedalready: Joi.string().label("Applied Already"),
-    specify: Joi.string().label("Member")
+    relatedrelation: Joi.string().label("Relationship"), */
+    appliedalready: Joi.any().label("Applied Already"),
+    specify: Joi.any().label("Member")
   };
   handleDoBChange = date => {
     this.setState({
@@ -148,7 +169,7 @@ class EmploymentDetails extends Form {
   };
 
   doSubmit = async () => {
-    //console.log("doSubmit - LoginForm.jsx");
+    console.log("doSubmit - Employment.jsx");
     this.props.showProgress();
     await getDBService(
       "checkUserExistance",
@@ -168,7 +189,39 @@ class EmploymentDetails extends Form {
     }
   };
   loginPanel = () => {
-    // const { source } = this.state.data;
+    const { source } = this.state.data;
+    let newSchema;
+    if (source === "1") {
+      newSchema = _.omit(this.schema, ["srcconsult", "srcothers"]);
+      this.schema = {};
+      _.merge(newSchema, {
+        srcrefempname: Joi.string().label("Referred Employee Name"),
+        srcrefempid: Joi.string().label("Referred Employee ID")
+      });
+      _.merge(this.schema, newSchema);
+    } else if (source === "2") {
+      newSchema = _.omit(this.schema, [
+        "srcrefempname",
+        "srcrefempid",
+        "srcothers"
+      ]);
+      this.schema = {};
+      _.merge(newSchema, {
+        srcconsult: Joi.string().label("Consultancy Reference")
+      });
+      _.merge(this.schema, newSchema);
+    } else if (source === "3") {
+      newSchema = _.omit(this.schema, [
+        "srcconsult",
+        "srcrefempname",
+        "srcrefempid"
+      ]);
+      this.schema = {};
+      _.merge(newSchema, {
+        srcothers: Joi.string().label("Job Portal/Others Reference")
+      });
+      _.merge(this.schema, newSchema);
+    }
     return (
       <div className={"empDetailsForm-login show"}>
         <div className="empDetailsForm-title">Fill your employment details</div>
@@ -192,11 +245,11 @@ class EmploymentDetails extends Form {
               "Relevant Experience <span class='smallLabel'>[in years]</span><sup class='supStar'>*</sup>"
             )}
 
-            {this.renderInput(
+            {this.renderDropDownList(
               "reasonjobchange",
-              "Reason for Change in job<sup class='supStar'>*</sup>"
+              "Reason for Change in job<sup class='supStar'>*</sup>",
+              reason
             )}
-
             {this.renderRadios(
               "notice",
               "Notice Period <span class='smallLabel'>[time required to join, if selected]</span><sup class='supStar'>*</sup>",
@@ -215,7 +268,7 @@ class EmploymentDetails extends Form {
             {this.renderRadios(
               "source",
               "Source <span class='smallLabel' /><sup class='supStar'>*</sup>",
-              source,
+              sourcedata,
               "v"
             )}
             {this.state.data.source === "2" ? (
