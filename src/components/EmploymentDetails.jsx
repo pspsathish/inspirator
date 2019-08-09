@@ -4,6 +4,7 @@ import Form from "./Form";
 import _ from "lodash";
 /* import DatePicker from "react-datepicker"; */
 import { getDBService } from "./utils/dbservice";
+import Switch from "react-switch";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -95,8 +96,10 @@ class EmploymentDetails extends Form {
       relatedname: "",
       relatedempid: "",
       relatedrelation: "",
-      appliedalready: "",
-      specify: ""
+      appliedalready: false,
+      specify: false,
+      appjobtitle: "",
+      memberspecify: ""
     },
     errors: {
       postappliedfor: "'Post Applied for' should not be empty.",
@@ -123,6 +126,7 @@ class EmploymentDetails extends Form {
       .required()
       .label("Total Experience"),
     rexp: Joi.number()
+      /* .max(Joi.ref("texp")) */
       .required()
       .label("Relevant Experience"),
     reasonjobchange: Joi.object()
@@ -156,8 +160,12 @@ class EmploymentDetails extends Form {
     /* relatedname: Joi.string().label("Relation Name"),
     relatedempid: Joi.string().label("Relation Employee ID"),
     relatedrelation: Joi.string().label("Relationship"), */
-    appliedalready: Joi.any().label("Applied Already"),
-    specify: Joi.any().label("Member")
+    appliedalready: Joi.boolean().label("Applied Already"),
+    specify: Joi.boolean().label(
+      "Member"
+    ) /* 
+    appjobtitle: Joi.string().label("Applied Already"),
+    memberspecify: Joi.string().label("Member") */
   };
   handleDoBChange = date => {
     this.setState({
@@ -188,10 +196,94 @@ class EmploymentDetails extends Form {
       //this.setErrorText(message);
     }
   };
+  handleSwitch0Change = checked => {
+    const { data } = this.state;
+    data.relatedto = checked;
+    this.setState({ data });
+  };
+  handleSwitch1Change = checked => {
+    const { data } = this.state;
+    data.appliedalready = checked;
+    this.setState({ data });
+  };
+  handleSwitch2Change = checked => {
+    const { data } = this.state;
+    data.specify = checked;
+    this.setState({ data });
+  };
   loginPanel = () => {
-    const { source } = this.state.data;
+    const {
+      source,
+      appliedalready,
+      specify,
+      relatedto,
+      texp
+    } = this.state.data;
     let newSchema;
-    if (source === "1") {
+
+    if (appliedalready) {
+      newSchema = _.omit(this.schema, ["appjobtitle"]);
+      this.schema = {};
+      _.merge(newSchema, {
+        appjobtitle: Joi.string().label("Applied Already")
+      });
+      _.merge(this.schema, newSchema);
+    } else {
+      newSchema = _.omit(this.schema, ["appjobtitle"]);
+      this.schema = {};
+      _.merge(newSchema, {});
+      _.merge(this.schema, newSchema);
+    }
+
+    if (specify) {
+      newSchema = _.omit(this.schema, ["memberspecify"]);
+      this.schema = {};
+      _.merge(newSchema, {
+        memberspecify: Joi.string().label("Member")
+      });
+      _.merge(this.schema, newSchema);
+    } else {
+      newSchema = _.omit(this.schema, ["memberspecify"]);
+      this.schema = {};
+      _.merge(newSchema, {});
+      _.merge(this.schema, newSchema);
+    }
+
+    if (relatedto) {
+      newSchema = _.omit(this.schema, [
+        "relatedname",
+        "relatedempid",
+        "relatedrelation"
+      ]);
+      this.schema = {};
+      _.merge(newSchema, {
+        relatedname: Joi.string().label("Relation Name"),
+        relatedempid: Joi.string().label("Relation Employee ID"),
+        relatedrelation: Joi.string().label("Relationship")
+      });
+      _.merge(this.schema, newSchema);
+    } else {
+      newSchema = _.omit(this.schema, [
+        "relatedname",
+        "relatedempid",
+        "relatedrelation"
+      ]);
+      this.schema = {};
+      _.merge(newSchema, {});
+      _.merge(this.schema, newSchema);
+    }
+
+    if (source === "0") {
+      newSchema = _.omit(this.schema, [
+        "srcconsult",
+        "srcothers",
+        "srcrefempname",
+        "srcrefempid"
+      ]);
+      this.schema = {};
+      _.merge(newSchema, {});
+      _.merge(this.schema, newSchema);
+    } else if (source === "1") {
       newSchema = _.omit(this.schema, ["srcconsult", "srcothers"]);
       this.schema = {};
       _.merge(newSchema, {
@@ -222,9 +314,9 @@ class EmploymentDetails extends Form {
       });
       _.merge(this.schema, newSchema);
     }
+    console.log(this.schema);
     return (
       <div className={"empDetailsForm-login show"}>
-        <div className="empDetailsForm-title">Fill your employment details</div>
         <div className="empDetailsForm-content">
           <form
             className="empDetailsForm"
@@ -240,16 +332,19 @@ class EmploymentDetails extends Form {
               "texp",
               "Total Experience <span class='smallLabel'>[in years]</span><sup class='supStar'>*</sup>"
             )}
-            {this.renderInput(
-              "rexp",
-              "Relevant Experience <span class='smallLabel'>[in years]</span><sup class='supStar'>*</sup>"
-            )}
-
-            {this.renderDropDownList(
-              "reasonjobchange",
-              "Reason for Change in job<sup class='supStar'>*</sup>",
-              reason
-            )}
+            {texp > 0
+              ? this.renderInput(
+                  "rexp",
+                  "Relevant Experience <span class='smallLabel'>[in years]</span><sup class='supStar'>*</sup>"
+                )
+              : null}
+            {texp > 0
+              ? this.renderDropDownList(
+                  "reasonjobchange",
+                  "Reason for Change in job<sup class='supStar'>*</sup>",
+                  reason
+                )
+              : null}
             {this.renderRadios(
               "notice",
               "Notice Period <span class='smallLabel'>[time required to join, if selected]</span><sup class='supStar'>*</sup>",
@@ -304,48 +399,68 @@ class EmploymentDetails extends Form {
                 )}
               </div>
             ) : null}
-
-            {this.renderAgreeBox(
-              "relatedto",
-              "Are you related to any Employee of this Company ? <div class='smallLabel'>[If Yes, please mention name, Relationship and Emp. ID]</div>",
-              "Please check terms and conditions."
-            )}
-            {this.state.data.relatedto ? (
-              <div className="formItemSub">
-                {this.renderInput(
-                  "relatedname",
-                  "Name<sup class='supStar'>*</sup>"
-                )}
-                {this.renderInput(
-                  "relatedempid",
-                  "Emp. ID<sup class='supStar'>*</sup>"
-                )}
-                {this.renderInput(
-                  "relatedrelation",
-                  "Relationship<sup class='supStar'>*</sup>"
-                )}
-              </div>
-            ) : null}
             <div className="formDivs">
-              <label>
-                Have you applied for a job with us earlier ?
-                <br />
-                <span className="smallLabel">
-                  [Please specify the job applied for along with mm/yy]
-                </span>
-              </label>
-              <div>
-                <textarea />
+              <div className="empSwitchDiv">
+                <label>Are you related to any Employee of this Company ?</label>
+                <Switch
+                  onChange={this.handleSwitch0Change}
+                  checked={relatedto}
+                />
               </div>
+              {relatedto ? (
+                <React.Fragment>
+                  <span className="smallLabel">
+                    [Please mention name, Relationship and Emp. ID]
+                  </span>
+                  <div className="formItemSub">
+                    {this.renderInput(
+                      "relatedname",
+                      "Name<sup class='supStar'>*</sup>"
+                    )}
+                    {this.renderInput(
+                      "relatedempid",
+                      "Emp. ID<sup class='supStar'>*</sup>"
+                    )}
+                    {this.renderInput(
+                      "relatedrelation",
+                      "Relationship<sup class='supStar'>*</sup>"
+                    )}
+                  </div>
+                </React.Fragment>
+              ) : null}
             </div>
             <div className="formDivs">
-              <label>
-                Please specify, if you are a member of any professional, social,
-                civic or other body/organization
-              </label>
-              <div>
-                <textarea />
+              <div className="empSwitchDiv">
+                <label>
+                  Have you applied for a job with us earlier ?
+                  <br />
+                </label>
+                <Switch
+                  onChange={this.handleSwitch1Change}
+                  checked={appliedalready}
+                />
               </div>
+              {appliedalready
+                ? this.renderTextArea(
+                    "appjobtitle",
+                    "<span class='smallLabel'>[Please specify the job applied for along with mm/yy]</span><sup class='supStar'>*</sup>"
+                  )
+                : null}
+            </div>
+            <div className="formDivs">
+              <div className="empSwitchDiv">
+                <label>
+                  Member of any professional, social, civic or other
+                  body/organization?
+                </label>
+                <Switch onChange={this.handleSwitch2Change} checked={specify} />
+              </div>
+              {specify
+                ? this.renderTextArea(
+                    "memberspecify",
+                    "<span class='smallLabel'>[Please mention details]</span><sup class='supStar'>*</sup>"
+                  )
+                : null}
             </div>
             <div className="dummy-space" />
             <div className="login-button">

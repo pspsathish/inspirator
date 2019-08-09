@@ -95,6 +95,11 @@
 .srcdet-radioGroup {
   height: 540px !important;
 }
+.empSwitchDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 @keyframes loginShow {
   from {
     left: 100%;

@@ -15,6 +15,7 @@ label {
 }
 .smallLabel {
   font-size: 14px;
+  font-weight: 600;
 }
 .supStar {
   color: red;
@@ -48,13 +49,11 @@ code {
     monospace;
 }
 .formItemSub {
-  width: 90%;
   color: #007cff;
   font-size: smaller;
   padding: 10px;
   background-color: whitesmoke;
   margin-bottom: 16px;
-  top: -16px;
   position: relative;
 }
 .formItemSub div {

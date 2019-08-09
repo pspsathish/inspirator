@@ -33,7 +33,11 @@ class Main extends Component {
           marital: "" //string as Radio expect string
         }
       },
-      subtitle: ["Login/Register to continue", "Fill your personal details"]
+      subtitle: [
+        "Login/Register to continue",
+        "Fill your personal details",
+        "Fill your employment details"
+      ]
     };
   }
   showLoading = () => {

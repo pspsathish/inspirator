@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Joi from "joi-browser";
 import DropDownList from "./dropDownList";
 import Input from "./Input";
+import TextArea from "./TextArea";
 import Radios from "./Radios";
 import Dates from "./Dates";
 import AgreeBox from "./agreeBox";
@@ -32,6 +33,15 @@ class Form extends Component {
   };
 
   validateProperty = ({ name, value }, dependon) => {
+    let obj = { [name]: value };
+    if (dependon) obj[dependon] = this.state.data[dependon];
+    let schema = { [name]: this.schema[name] };
+    if (dependon) schema[dependon] = this.schema[dependon];
+    const { error } = Joi.validate(obj, schema);
+    //if (error) console.log(error.details);
+    return error ? error.details[0].message : null;
+  };
+  validateTextAreaProperty = ({ name, value }, dependon) => {
     let obj = { [name]: value };
     if (dependon) obj[dependon] = this.state.data[dependon];
     let schema = { [name]: this.schema[name] };
@@ -78,6 +88,18 @@ class Form extends Component {
 
     const data = { ...this.state.data };
     data[input.name] = input.value;
+    //console.log(data[input.name] + 1);
+    this.setState({ data, errors });
+  };
+
+  handleTextAreaChange = (dependon, { currentTarget: textarea }) => {
+    const errors = { ...this.state.errors };
+    const errorMessage = this.validateTextAreaProperty(textarea, dependon);
+    if (errorMessage) errors[textarea.name] = errorMessage;
+    else delete errors[textarea.name];
+
+    const data = { ...this.state.data };
+    data[textarea.name] = textarea.value;
     this.setState({ data, errors });
   };
 
@@ -175,6 +197,28 @@ class Form extends Component {
       />
     );
   }
+
+  renderTextArea(
+    name,
+    label,
+    disabled = false,
+    type = "text",
+    dependon = null
+  ) {
+    const { data, errors } = this.state;
+    return (
+      <TextArea
+        value={data[name]}
+        onChange={this.handleTextAreaChange.bind(this, dependon)}
+        type={type}
+        name={name}
+        disabled={disabled}
+        label={label}
+        error={errors[name]}
+      />
+    );
+  }
+
   renderDropDownList(name, label, options) {
     const { errors, data } = this.state;
     //console.log(data[name]);
