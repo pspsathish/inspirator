@@ -9,11 +9,19 @@ import Button from "./Button";
 
 class Form extends Component {
   validate = () => {
+    /*     const schema = Joi.object({
+      a: Joi.number(),
+      b: Joi.string(),
+      c: Joi.number().required()
+    }).without("a", "c");
+    const err = schema.validate({ c: 9 });
+    console.log("err=====" + err.error); */
     const options = {
-      abortEarly: false
+      //abortEarly: false
+      allowUnknown: true
     };
     const { error } = Joi.validate(this.state.data, this.schema, options);
-    //console.log(error);
+    //console.log("-----" + error);
     if (!error) return null;
     //console.log("22---" + error);
     const errors = {};
@@ -71,9 +79,7 @@ class Form extends Component {
     const data = { ...this.state.data };
     data[input.name] = input.value;
     this.setState({ data, errors });
-  }; /* <button disabled={this.validate()} className="btn btn-primary">
-        {label}
-      </button> */
+  };
 
   handleDropDownChange = (value, selectedOption) => {
     const errors = { ...this.state.errors };
@@ -150,9 +156,9 @@ class Form extends Component {
   renderInput(
     name,
     label,
+    disabled = false,
     icon = "none",
     type = "text",
-    disabled = false,
     dependon = null
   ) {
     const { data, errors } = this.state;
@@ -203,11 +209,12 @@ class Form extends Component {
           options={options}
           onChange={this.handleRadioSelectionChange.bind(this, name)}
           error={errors[name]}
+          type={type}
         />
       );
     }
   }
-  renderDates(name, label) {
+  renderDates(name, label, disabled) {
     const { errors, data } = this.state;
     if (data[name] !== "" && data[name] !== null) {
       return (
@@ -216,6 +223,7 @@ class Form extends Component {
           onChange={this.handleDateSelectionChange.bind(this, name)}
           error={errors[name]}
           selected={new Date(data[name])}
+          disabled={disabled}
         />
       );
     } else {
@@ -224,12 +232,13 @@ class Form extends Component {
           label={label}
           onChange={this.handleDateSelectionChange.bind(this, name)}
           error={errors[name]}
+          disabled={disabled}
         />
       );
     }
   }
   renderAgreeBox(name, label, errorMessage, options) {
-    const { errors } = this.state;
+    const { errors, data } = this.state;
     return (
       <AgreeBox
         label={label}
@@ -238,6 +247,7 @@ class Form extends Component {
         onChange={this.handleAgreeBox.bind(this, errorMessage)}
         error={errors[name]}
         name={name}
+        checked={data[name]}
       />
     );
   }

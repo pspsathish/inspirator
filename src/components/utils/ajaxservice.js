@@ -5,6 +5,8 @@ function AjaxService() {}
 export default AjaxService;
 
 export const getAjaxService = (service, data, callback) => {
+  callback("success", { aid: "sassa" }, "message");
+  return true;
   //console.log(data);
   let phpPath = getPhpPath();
   let ajaxCallPhp = false;

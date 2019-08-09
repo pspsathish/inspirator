@@ -47,7 +47,76 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.formItemSub {
+  width: 90%;
+  color: #007cff;
+  font-size: smaller;
+  padding: 10px;
+  background-color: whitesmoke;
+  margin-bottom: 16px;
+  top: -16px;
+  position: relative;
+}
+.formItemSub div {
+  width: 100% !important;
+}
+.rc-checkbox-inner {
+  width: 20px !important;
+  height: 20px !important;
+}
+.rc-checkbox-checked .rc-checkbox-inner:after {
+  left: 7px !important;
+  height: 12px !important;
+}
+.rc-checkbox-checked .rc-checkbox-inner {
+  border-color: #789e12 !important;
+  background-color: #a5ce39 !important;
+}
 
+.rc-checkbox-input {
+  width: 20px !important;
+  height: 20px !important;
+}
+.agreeBoxText {
+  color: black;
+  font-size: smaller;
+}
+.mini {
+  font-size: smaller;
+  color: palevioletred;
+}
+.formDivs {
+  color: black;
+  line-height: 1;
+  width: 90%;
+  margin-bottom: 16px;
+}
+.formDivs textarea {
+  width: 100%;
+  background-color: rgb(255, 255, 255) !important;
+  border: 1px solid rgb(66, 65, 67) !important;
+  color: rgb(54, 54, 54) !important;
+  box-shadow: none !important;
+  border-radius: 0.25rem !important;
+  height: 125px;
+  resize: none;
+  overflow: hidden;
+}
+
+.datePicker {
+  border: 1px solid rgb(66, 65, 67);
+  color: rgb(54, 54, 54);
+  width: 100%;
+  display: table-cell;
+  font-size: 18px;
+  box-shadow: none;
+  height: 40px;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+}
+.datePicker:disabled {
+  background-color: #e9ecef;
+}
 @font-face {
   font-family: "robotolight";
   src: url("fonts/Roboto-Light.eot");

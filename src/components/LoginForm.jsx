@@ -8,7 +8,10 @@ import "./css/login.css";
 class Login extends Form {
   state = {
     data: {
-      email: ""
+      email: "",
+      name: "",
+      mobile: "",
+      dob: null
     },
     errors: {},
     buttonStyle: {
@@ -18,10 +21,24 @@ class Login extends Form {
     disable: false
   };
   schema = {
+    name: Joi.string()
+      .required()
+      .min(3)
+      .max(50)
+      .label("Name"),
+    dob: Joi.date()
+      .required()
+      .label("Date of Birth"),
     email: Joi.string()
       .required()
       .email()
-      .label("Identity")
+      .label("Email"),
+    mobile: Joi.number()
+      .required()
+      .integer()
+      .min(1000000000)
+      .max(9999999999)
+      .label("Mobile Number")
   };
   constructor() {
     super();
@@ -54,7 +71,16 @@ class Login extends Form {
             onSubmit={this.handleSubmit}
             autoComplete="off"
           >
-            {this.renderInput("email", "Email", <FaEnvelope />)}
+            {this.renderInput("name", "Name<sup class='supStar'>*</sup>")}
+            {this.renderDates(
+              "dob",
+              "Date of Birth<sup class='supStar'>*</sup>"
+            )}
+            {this.renderInput(
+              "mobile",
+              "Mobile Number<sup class='supStar'>*</sup>"
+            )}
+            {this.renderInput("email", "Email", false, <FaEnvelope />)}
             <div className="dummy-space" />
             <div className="login-button">
               {this.renderButton(

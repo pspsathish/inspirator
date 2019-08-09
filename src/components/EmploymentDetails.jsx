@@ -1,8 +1,8 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./Form";
+import _ from "lodash";
 /* import DatePicker from "react-datepicker"; */
-import { RadioGroup, RadioButton } from "react-radio-buttons";
 import { getDBService } from "./utils/dbservice";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -10,6 +10,21 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./css/employmentDetails.css";
 
 const postappliedfor = [
+  {
+    value: "0",
+    label: "Item 1"
+  },
+  {
+    value: "1",
+    label: "Item 2"
+  },
+  {
+    value: "2",
+    label: "Item 3"
+  }
+];
+
+const reason = [
   {
     value: "0",
     label: "Item 1"
@@ -43,7 +58,7 @@ const notice = [
   }
 ];
 
-const source = [
+const sourcedata = [
   {
     value: "0",
     label: "Walk-In"
@@ -72,19 +87,22 @@ class EmploymentDetails extends Form {
       cctc: "",
       ectc: "",
       source: null,
-      consuldetail: "",
-      otherdetail: "",
-      refName: "",
-      refId: "",
-      relationName: "",
-      relation: "",
-      area1: "",
-      area2: ""
+      srcconsult: "",
+      srcothers: "",
+      srcrefempname: "",
+      srcrefempid: "",
+      relatedto: false,
+      relatedname: "",
+      relatedempid: "",
+      relatedrelation: "",
+      appliedalready: "",
+      specify: ""
     },
     errors: {
       postappliedfor: "'Post Applied for' should not be empty.",
       notice: "Choose 'Notice Period'",
-      source: "Choose 'Source'"
+      source: "Choose 'Source'",
+      reason: "Choose 'Reason for Change in job'"
     },
     buttonStyle: {
       background: "#424143",
@@ -94,8 +112,12 @@ class EmploymentDetails extends Form {
     startDate: new Date()
   };
   schema = {
-    postappliedfor: Joi.string()
+    postappliedfor: Joi.object()
       .required()
+      .keys({
+        label: Joi.string().max(40),
+        value: Joi.number()
+      })
       .label("Post Applied for"),
     texp: Joi.number()
       .required()
@@ -103,10 +125,13 @@ class EmploymentDetails extends Form {
     rexp: Joi.number()
       .required()
       .label("Relevant Experience"),
-    reasonjobchange: Joi.string()
+    reasonjobchange: Joi.object()
       .required()
-      .label("Reason")
-      .max(100),
+      .keys({
+        label: Joi.string().max(40),
+        value: Joi.number()
+      })
+      .label("Reason"),
     notice: Joi.number()
       .required()
       .integer()
@@ -123,33 +148,16 @@ class EmploymentDetails extends Form {
       .required()
       .integer()
       .label("Source"),
-    consuldetail: Joi.object()
-      .required()
-      .label("Identity"),
-    otherdetail: Joi.object()
-      .required()
-      .label("Identity"),
-    refName: Joi.object()
-      .required()
-      .label("Identity"),
-    refId: Joi.object()
-      .required()
-      .label("Identity"),
-    relationName: Joi.object()
-      .required()
-      .label("Identity"),
-    relationId: Joi.object()
-      .required()
-      .label("Identity"),
-    relation: Joi.object()
-      .required()
-      .label("Identity"),
-    area1: Joi.object()
-      .required()
-      .label("Identity"),
-    area2: Joi.object()
-      .required()
-      .label("Identity")
+    /* srcconsult: Joi.string().label("Consultancy Reference"),
+    srcothers: Joi.string().label("Job Portal/Others Reference"),
+    srcrefempname: Joi.string().label("Referred Employee Name"),
+    srcrefempid: Joi.string().label("Referred Employee ID"), */
+    relatedto: Joi.boolean().label("Employee Relation"),
+    /* relatedname: Joi.string().label("Relation Name"),
+    relatedempid: Joi.string().label("Relation Employee ID"),
+    relatedrelation: Joi.string().label("Relationship"), */
+    appliedalready: Joi.any().label("Applied Already"),
+    specify: Joi.any().label("Member")
   };
   handleDoBChange = date => {
     this.setState({
@@ -161,7 +169,7 @@ class EmploymentDetails extends Form {
   };
 
   doSubmit = async () => {
-    //console.log("doSubmit - LoginForm.jsx");
+    console.log("doSubmit - Employment.jsx");
     this.props.showProgress();
     await getDBService(
       "checkUserExistance",
@@ -181,6 +189,39 @@ class EmploymentDetails extends Form {
     }
   };
   loginPanel = () => {
+    const { source } = this.state.data;
+    let newSchema;
+    if (source === "1") {
+      newSchema = _.omit(this.schema, ["srcconsult", "srcothers"]);
+      this.schema = {};
+      _.merge(newSchema, {
+        srcrefempname: Joi.string().label("Referred Employee Name"),
+        srcrefempid: Joi.string().label("Referred Employee ID")
+      });
+      _.merge(this.schema, newSchema);
+    } else if (source === "2") {
+      newSchema = _.omit(this.schema, [
+        "srcrefempname",
+        "srcrefempid",
+        "srcothers"
+      ]);
+      this.schema = {};
+      _.merge(newSchema, {
+        srcconsult: Joi.string().label("Consultancy Reference")
+      });
+      _.merge(this.schema, newSchema);
+    } else if (source === "3") {
+      newSchema = _.omit(this.schema, [
+        "srcconsult",
+        "srcrefempname",
+        "srcrefempid"
+      ]);
+      this.schema = {};
+      _.merge(newSchema, {
+        srcothers: Joi.string().label("Job Portal/Others Reference")
+      });
+      _.merge(this.schema, newSchema);
+    }
     return (
       <div className={"empDetailsForm-login show"}>
         <div className="empDetailsForm-title">Fill your employment details</div>
@@ -204,11 +245,11 @@ class EmploymentDetails extends Form {
               "Relevant Experience <span class='smallLabel'>[in years]</span><sup class='supStar'>*</sup>"
             )}
 
-            {this.renderInput(
+            {this.renderDropDownList(
               "reasonjobchange",
-              "Reason for Change in job<sup class='supStar'>*</sup>"
+              "Reason for Change in job<sup class='supStar'>*</sup>",
+              reason
             )}
-
             {this.renderRadios(
               "notice",
               "Notice Period <span class='smallLabel'>[time required to join, if selected]</span><sup class='supStar'>*</sup>",
@@ -227,59 +268,81 @@ class EmploymentDetails extends Form {
             {this.renderRadios(
               "source",
               "Source <span class='smallLabel' /><sup class='supStar'>*</sup>",
-              source,
+              sourcedata,
               "v"
             )}
-            {this.renderAgreeBox(
-              "terms",
-              "I agree to the terms and conditions.",
-              "Please check terms and conditions."
-            )}
-            <div>
-              <div>
-                If referred by Employee
-                <br />
-                <span className="smallLabel">
+            {this.state.data.source === "2" ? (
+              <div className="formItemSub">
+                {this.renderInput(
+                  "srcconsult",
+                  "[Please specify the Consultancy]<sup class='supStar'>*</sup>"
+                )}
+              </div>
+            ) : null}
+            {this.state.data.source === "3" ? (
+              <div className="formItemSub">
+                {this.renderInput(
+                  "srcothers",
+                  "[Please specify the Job Portal/Others]<sup class='supStar'>*</sup>"
+                )}
+              </div>
+            ) : null}
+            {this.state.data.source === "1" ? (
+              <div className="formItemSub">
+                If referred by Employee{" "}
+                <div className="smallLabel">
                   [It is mandatory to fill Name & Emp. ID of the referrer. Will
                   not be considered for Referral if not specified]
-                </span>
+                </div>
+                {this.renderInput(
+                  "srcrefempname",
+                  "Name<sup class='supStar'>*</sup>"
+                )}
+                {this.renderInput(
+                  "srcrefempid",
+                  "Emp. ID<sup class='supStar'>*</sup>"
+                )}
               </div>
-              <div>
-                {this.renderInput("refName", "Name")}
-                {this.renderInput("refId", "Emp. ID")}
+            ) : null}
+
+            {this.renderAgreeBox(
+              "relatedto",
+              "Are you related to any Employee of this Company ? <div class='smallLabel'>[If Yes, please mention name, Relationship and Emp. ID]</div>",
+              "Please check terms and conditions."
+            )}
+            {this.state.data.relatedto ? (
+              <div className="formItemSub">
+                {this.renderInput(
+                  "relatedname",
+                  "Name<sup class='supStar'>*</sup>"
+                )}
+                {this.renderInput(
+                  "relatedempid",
+                  "Emp. ID<sup class='supStar'>*</sup>"
+                )}
+                {this.renderInput(
+                  "relatedrelation",
+                  "Relationship<sup class='supStar'>*</sup>"
+                )}
               </div>
-            </div>
-            <div>
-              <div>
-                Are you related to any Employee of this Company
-                <br />
-                <span className="smallLabel">
-                  [If Yes, please mention name, Relationship and Emp. ID]
-                </span>
-              </div>
-              <div>
-                {this.renderInput("relationName", "Name")}
-                {this.renderInput("relationId", "Emp. ID")}
-                {this.renderInput("relation", "Reationship")}
-              </div>
-            </div>
-            <div>
-              <div>
+            ) : null}
+            <div className="formDivs">
+              <label>
                 Have you applied for a job with us earlier ?
                 <br />
                 <span className="smallLabel">
                   [Please specify the job applied for along with mm/yy]
                 </span>
-              </div>
+              </label>
               <div>
                 <textarea />
               </div>
             </div>
-            <div>
-              <div>
+            <div className="formDivs">
+              <label>
                 Please specify, if you are a member of any professional, social,
                 civic or other body/organization
-              </div>
+              </label>
               <div>
                 <textarea />
               </div>

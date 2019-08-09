@@ -62,8 +62,7 @@ class PersonalInfo extends Form {
     errors: {
       nationality: "'Nationality' should not be empty.",
       gender: "Choose 'Gender'",
-      marital: "Choose 'Marital Status'",
-      dob: "'Date of Birth' should not be empty"
+      marital: "Choose 'Marital Status'"
     },
     buttonStyle: {
       background: "#424143",
@@ -82,6 +81,7 @@ class PersonalInfo extends Form {
       .required()
       .label("Date of Birth"),
     nationality: Joi.object()
+      .required()
       .keys({
         label: Joi.string().max(40),
         value: Joi.number()
@@ -114,6 +114,9 @@ class PersonalInfo extends Form {
     const { page0data } = this.props;
     const page1data = { ...this.state.data };
     page1data.email = page0data.email;
+    page1data.name = page0data.name;
+    page1data.mobile = page0data.mobile;
+    page1data.dob = page0data.dob;
     this.setState({ data: page1data });
     const { nationality, gender, marital, dob } = this.state.data;
     //console.log(nationality);
@@ -148,7 +151,7 @@ class PersonalInfo extends Form {
   goForward = (result, { aid }, message) => {
     if (result === "success") {
       this.props.hideProgress();
-      this.props.goNext();
+      this.props.goNext(this.state.data);
     } else {
       //this.setErrorText(message);
     }
@@ -166,11 +169,12 @@ class PersonalInfo extends Form {
             onSubmit={this.handleSubmit}
             autoComplete="off"
           >
-            {this.renderInput("name", "Name<sup class='supStar'>*</sup>")}
+            {this.renderInput("name", "Name<sup class='supStar'>*</sup>", true)}
 
             {this.renderDates(
               "dob",
-              "Date of Birth<sup class='supStar'>*</sup>"
+              "Date of Birth<sup class='supStar'>*</sup>",
+              true
             )}
             {this.renderDropDownList(
               "nationality",
@@ -179,9 +183,10 @@ class PersonalInfo extends Form {
             )}
             {this.renderInput(
               "mobile",
-              "Mobile Number<sup class='supStar'>*</sup>"
+              "Mobile Number<sup class='supStar'>*</sup>",
+              true
             )}
-            {this.renderInput("email", "Email ID", "none", "text", true)}
+            {this.renderInput("email", "Email ID", true)}
 
             {this.renderRadios(
               "gender",

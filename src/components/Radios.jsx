@@ -14,20 +14,24 @@ const formGroupStyle = {
 const formGroupLabelStyle = {
   marginBottom: "0px"
 };
-const errorStyle = {
+const errorStyle1 = {
   fontSize: "12px",
   color: "red"
 };
-const radioGroupStyle = {
-  width: "100%",
-  display: "inlineFlex"
+const errorStyle2 = {
+  fontSize: "12px",
+  color: "red",
+  top: "-16px",
+  position: "relative"
 };
-const vradioGroupStyle = {
+const radioGroupStyle1 = { display: "inline-flex", width: "100%" };
+const radioGroupStyle2 = {
   width: "100%"
 };
 
 const Radios = ({ label, options, error, type, onChange, ...rest }) => {
-  const styled = type === "v" ? vradioGroupStyle : radioGroupStyle;
+  const arrangement = type === "v" ? false : true;
+  const radioGrpStyle = type === "v" ? radioGroupStyle2 : radioGroupStyle1;
   return (
     <div className="form-group" style={formGroupStyle}>
       <label
@@ -41,32 +45,22 @@ const Radios = ({ label, options, error, type, onChange, ...rest }) => {
           className="radio-group"
           onChange={onChange}
           {...rest}
-          horizontal
-          /*  style={styled} */
+          horizontal={arrangement}
+          style={radioGrpStyle}
         >
           {options.map((option, index) => (
-            <RadioButton
-              key={option.label + option.value}
-              value={option.value}
-              style={{ width: "100px" }}
-            >
+            <RadioButton key={option.label + option.value} value={option.value}>
               {option.label}
             </RadioButton>
           ))}
         </RadioGroup>
       </div>
       <div className="form-alert">
-        {error && <div style={errorStyle}>{error}</div>}
+        {error && (
+          <div style={arrangement ? errorStyle1 : errorStyle2}>{error}</div>
+        )}
       </div>
     </div>
-
-    /*  <input
-          {...rest}
-          name={name}
-          id={name}
-          className="form-control"
-          style={icon !== "none" ? inputIconStyle : inputStyle}
-        /> */
   );
 };
 
