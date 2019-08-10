@@ -34,7 +34,7 @@ class Form extends Component {
 
   validateProperty = ({ name, value }, dependon) => {
     let obj = { [name]: value };
-    if (dependon) obj[dependon] = this.state.data[dependon];
+    if (dependon) obj[dependon] = Number(this.state.data[dependon]);
     let schema = { [name]: this.schema[name] };
     if (dependon) schema[dependon] = this.schema[dependon];
     const { error } = Joi.validate(obj, schema);

@@ -126,7 +126,7 @@ class EmploymentDetails extends Form {
       .required()
       .label("Total Experience"),
     rexp: Joi.number()
-      /* .max(Joi.ref("texp")) */
+      .max(Joi.ref("texp"))
       .required()
       .label("Relevant Experience"),
     reasonjobchange: Joi.object()
@@ -335,7 +335,11 @@ class EmploymentDetails extends Form {
             {texp > 0
               ? this.renderInput(
                   "rexp",
-                  "Relevant Experience <span class='smallLabel'>[in years]</span><sup class='supStar'>*</sup>"
+                  "Relevant Experience <span class='smallLabel'>[in years]</span><sup class='supStar'>*</sup>",
+                  false,
+                  "none",
+                  "text",
+                  "texp"
                 )
               : null}
             {texp > 0
