@@ -1,5 +1,6 @@
 import React from "react";
 import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 
 const formGroupStyle = {
   marginBottom: "0px",
@@ -14,7 +15,7 @@ const errorStyle = {
   fontSize: "12px",
   color: "red"
 };
-const DropDownList = ({ label, options, error, ...rest }) => {
+const DropDownList = ({ label, options, edit, error, ...rest }) => {
   return (
     <div className="form-group" style={formGroupStyle}>
       <label
@@ -23,7 +24,11 @@ const DropDownList = ({ label, options, error, ...rest }) => {
           __html: label
         }}
       />
-      <Select {...rest} options={options} />
+      {edit ? (
+        <CreatableSelect {...rest} options={options} />
+      ) : (
+        <Select {...rest} options={options} />
+      )}
       {error && (
         <div className="form-alert">
           {error && <div style={errorStyle}>{error}</div>}

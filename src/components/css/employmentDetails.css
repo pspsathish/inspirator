@@ -100,6 +100,16 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.formItemSub2 {
+  color: #688223;
+  font-size: smaller;
+  padding: 10px;
+  background-color: whitesmoke;
+  margin-bottom: 16px;
+  position: relative;
+  width: 100%;
+}
 @keyframes loginShow {
   from {
     left: 100%;

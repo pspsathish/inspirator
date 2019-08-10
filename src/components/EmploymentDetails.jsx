@@ -70,14 +70,18 @@ const sourcedata = [
   },
   {
     value: "1",
-    label: "Referrerd by Employee"
+    label: "Social Media"
   },
   {
     value: "2",
-    label: "Consultancy"
+    label: "Referrerd by Employee"
   },
   {
     value: "3",
+    label: "Consultancy"
+  },
+  {
+    value: "4",
     label: "Job Portal/Others"
   }
 ];
@@ -105,7 +109,6 @@ class EmploymentDetails extends Form {
       specify: false,
       appjobtitle: "",
       memberspecify: "",
-      appjobtitle: "",
       appmonthyear: ""
     },
     errors: {
@@ -165,7 +168,7 @@ class EmploymentDetails extends Form {
     srcrefempid: Joi.string().label("Referred Employee ID"), */
     relatedto: Joi.boolean().label("Employee Relation"),
     /* relatedname: Joi.string().label("Relation Name"),
-    relatedempid: Joi.string().label("Relation Employee ID"),
+    relatedempid: Joi.any().label("Relation Employee ID"),
     relatedrelation: Joi.string().label("Relationship"), */
     appliedalready: Joi.boolean().label("Applied Already"),
     specify: Joi.boolean().label(
@@ -219,8 +222,10 @@ class EmploymentDetails extends Form {
     data.specify = checked;
     this.setState({ data });
   };
-  handleMonthChange = obj => {
-    console.log(obj);
+  handleMonthChange = mmyyyy => {
+    const { data } = this.state;
+    data.appmonthyear = mmyyyy;
+    this.setState({ data });
   };
   loginPanel = () => {
     const {
@@ -228,19 +233,21 @@ class EmploymentDetails extends Form {
       appliedalready,
       specify,
       relatedto,
-      texp
+      texp,
+      appmonthyear
     } = this.state.data;
     let newSchema;
 
     if (appliedalready) {
-      newSchema = _.omit(this.schema, ["appjobtitle"]);
+      newSchema = _.omit(this.schema, ["appjobtitle", "appmonthyear"]);
       this.schema = {};
       _.merge(newSchema, {
-        appjobtitle: Joi.string().label("Applied Already")
+        appjobtitle: Joi.string().label("Applied Job Title"),
+        appmonthyear: Joi.string().label("Applied Month&Year")
       });
       _.merge(this.schema, newSchema);
     } else {
-      newSchema = _.omit(this.schema, ["appjobtitle"]);
+      newSchema = _.omit(this.schema, ["appjobtitle", "appmonthyear"]);
       this.schema = {};
       _.merge(newSchema, {});
       _.merge(this.schema, newSchema);
@@ -269,7 +276,7 @@ class EmploymentDetails extends Form {
       this.schema = {};
       _.merge(newSchema, {
         relatedname: Joi.string().label("Relation Name"),
-        relatedempid: Joi.string().label("Relation Employee ID"),
+        relatedempid: Joi.any().label("Relation Employee ID"),
         relatedrelation: Joi.string().label("Relationship")
       });
       _.merge(this.schema, newSchema);
@@ -284,7 +291,7 @@ class EmploymentDetails extends Form {
       _.merge(this.schema, newSchema);
     }
 
-    if (source === "0") {
+    if (source === "0" || source === "1") {
       newSchema = _.omit(this.schema, [
         "srcconsult",
         "srcothers",
@@ -294,7 +301,7 @@ class EmploymentDetails extends Form {
       this.schema = {};
       _.merge(newSchema, {});
       _.merge(this.schema, newSchema);
-    } else if (source === "1") {
+    } else if (source === "2") {
       newSchema = _.omit(this.schema, ["srcconsult", "srcothers"]);
       this.schema = {};
       _.merge(newSchema, {
@@ -302,7 +309,7 @@ class EmploymentDetails extends Form {
         srcrefempid: Joi.string().label("Referred Employee ID")
       });
       _.merge(this.schema, newSchema);
-    } else if (source === "2") {
+    } else if (source === "3") {
       newSchema = _.omit(this.schema, [
         "srcrefempname",
         "srcrefempid",
@@ -313,7 +320,7 @@ class EmploymentDetails extends Form {
         srcconsult: Joi.string().label("Consultancy Reference")
       });
       _.merge(this.schema, newSchema);
-    } else if (source === "3") {
+    } else if (source === "4") {
       newSchema = _.omit(this.schema, [
         "srcconsult",
         "srcrefempname",
@@ -325,7 +332,6 @@ class EmploymentDetails extends Form {
       });
       _.merge(this.schema, newSchema);
     }
-    console.log(this.schema);
     return (
       <div className={"empDetailsForm-login show"}>
         <div className="empDetailsForm-content">
@@ -381,7 +387,7 @@ class EmploymentDetails extends Form {
               sourcedata,
               "v"
             )}
-            {this.state.data.source === "2" ? (
+            {this.state.data.source === "3" ? (
               <div className="formItemSub">
                 {this.renderInput(
                   "srcconsult",
@@ -389,7 +395,7 @@ class EmploymentDetails extends Form {
                 )}
               </div>
             ) : null}
-            {this.state.data.source === "3" ? (
+            {this.state.data.source === "4" ? (
               <div className="formItemSub">
                 {this.renderInput(
                   "srcothers",
@@ -397,7 +403,7 @@ class EmploymentDetails extends Form {
                 )}
               </div>
             ) : null}
-            {this.state.data.source === "1" ? (
+            {this.state.data.source === "2" ? (
               <div className="formItemSub">
                 If referred by Employee{" "}
                 <div className="smallLabel">
@@ -432,10 +438,7 @@ class EmploymentDetails extends Form {
                       "relatedname",
                       "Name<sup class='supStar'>*</sup>"
                     )}
-                    {this.renderInput(
-                      "relatedempid",
-                      "Emp. ID<sup class='supStar'>*</sup>"
-                    )}
+                    {this.renderInput("relatedempid", "Emp. ID")}
                     {this.renderInput(
                       "relatedrelation",
                       "Relationship<sup class='supStar'>*</sup>"
@@ -455,24 +458,62 @@ class EmploymentDetails extends Form {
                   checked={appliedalready}
                 />
               </div>
-              {appliedalready
-                ? this.renderInput(
-                    "appjobtitle",
-                    "<span class='smallLabel'>[Please specify the job applied for along with mm/yy]</span><sup class='supStar'>*</sup>"
-                  )
-                : null}
-              {appliedalready ? this.renderInput("appmonthyear", "") : null}
+
               {appliedalready ? (
-                <Monthpicker
-                  month={1}
-                  year={2018}
-                  format="MM,YYYY"
-                  onChange={this.handleMonthChange}
-                  allowedYears={{ before: 2020, after: 1980 }}
-                  primaryColor="#688223"
-                >
-                  <FaCalendar />
-                </Monthpicker>
+                <React.Fragment>
+                  <span className="smallLabel">
+                    [Please specify the job applied for along with mm/yy]
+                  </span>
+                  <div className="formItemSub2">
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center"
+                      }}
+                    >
+                      {this.renderInput(
+                        "appjobtitle",
+                        "<span class='smallLabel'>Job applied already</span><sup class='supStar'>*</sup>"
+                      )}
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center"
+                        }}
+                      >
+                        <Monthpicker
+                          locale="en"
+                          month={
+                            appmonthyear
+                              ? Number(appmonthyear.split(",")[0])
+                              : new Date().getMonth() + 1
+                          }
+                          year={
+                            appmonthyear
+                              ? Number(appmonthyear.split(",")[1])
+                              : new Date().getFullYear()
+                          }
+                          format="MM,YYYY"
+                          onChange={this.handleMonthChange}
+                          allowedYears={{ before: 2020, after: 1980 }}
+                          primaryColor="#688223"
+                        >
+                          <FaCalendar
+                            style={{
+                              fontSize: "34px",
+                              display: "inline-block"
+                            }}
+                          />
+                        </Monthpicker>
+                        {this.renderInput(
+                          "appmonthyear",
+                          "<span class='smallLabel'>Month,Year</span><sup class='supStar'>*</sup>",
+                          true
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </React.Fragment>
               ) : null}
             </div>
             <div className="formDivs">

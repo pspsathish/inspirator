@@ -13,7 +13,7 @@ class Main extends Component {
     super(props);
     this.state = {
       loading: false,
-      step: 2,
+      step: 0,
       page0: {
         data: {
           email: "",
