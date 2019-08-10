@@ -10,6 +10,7 @@ import Switch from "react-switch";
 import "react-month-picker-input/dist/react-month-picker-input.css"; */
 import Monthpicker from "@compeon/monthpicker";
 import { FaCalendar } from "react-icons/fa";
+import getSymbolFromCurrency from "currency-symbol-map";
 import "react-datepicker/dist/react-datepicker.css";
 
 import "./css/employmentDetails.css";
@@ -85,6 +86,10 @@ const sourcedata = [
     label: "Job Portal/Others"
   }
 ];
+const currencyData = [
+  { value: "0", label: "INR" },
+  { value: "0", label: "USD" }
+];
 
 class EmploymentDetails extends Form {
   state = {
@@ -109,7 +114,8 @@ class EmploymentDetails extends Form {
       specify: false,
       appjobtitle: "",
       memberspecify: "",
-      appmonthyear: ""
+      appmonthyear: "",
+      currency: "INR"
     },
     errors: {
       postappliedfor: "'Post Applied for' should not be empty.",
@@ -225,6 +231,15 @@ class EmploymentDetails extends Form {
   handleMonthChange = mmyyyy => {
     const { data } = this.state;
     data.appmonthyear = mmyyyy;
+    this.setState({ data });
+  };
+  currencyToggle = () => {
+    const { data } = this.state;
+    if (data.currency === "INR") {
+      data.currency = "USD";
+    } else if (data.currency === "USD") {
+      data.currency = "INR";
+    }
     this.setState({ data });
   };
   loginPanel = () => {
@@ -372,15 +387,39 @@ class EmploymentDetails extends Form {
               notice,
               "v"
             )}
-            {this.renderInput(
-              "cctc",
-              "Current CTC per month [INR]<sup class='supStar'>*</sup>"
-            )}
-            {this.renderInput(
-              "ectc",
-              "Expected CTC per month [INR]<sup class='supStar'>*</sup>"
-            )}
-
+            <div className="currencyPanel">
+              <div>
+                [
+                <span
+                  className="currencyspan"
+                  disabled={this.state.data.currency === "INR" ? false : true}
+                  onClick={this.currencyToggle}
+                >
+                  {getSymbolFromCurrency("INR")}
+                </span>
+                <span> / </span>
+                <span
+                  className="currencyspan"
+                  disabled={this.state.data.currency === "USD" ? false : true}
+                  onClick={this.currencyToggle}
+                >
+                  {getSymbolFromCurrency("USD")}
+                </span>{" "}
+                ]
+              </div>
+              {this.renderInput(
+                "cctc",
+                "Current CTC per month in " +
+                  this.state.data.currency +
+                  "</span><sup class='supStar'>*</sup>"
+              )}
+              {this.renderInput(
+                "ectc",
+                "Expected CTC per month in " +
+                  this.state.data.currency +
+                  "<sup class='supStar'>*</sup>"
+              )}
+            </div>
             {this.renderRadios(
               "source",
               "Source <span class='smallLabel' /><sup class='supStar'>*</sup>",

@@ -110,6 +110,29 @@
   position: relative;
   width: 100%;
 }
+.currencyPanel {
+  width: 90%;
+  padding: 10px;
+  background-color: #ececec;
+}
+.currencyPanel div {
+  width: 100% !important;
+}
+.currencyspan {
+  background: #a5ce39;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: black;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.currencyspan[disabled] {
+  background: #e2e2e2;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #ccd0d4;
+}
 @keyframes loginShow {
   from {
     left: 100%;

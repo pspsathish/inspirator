@@ -57,6 +57,7 @@ class Form extends Component {
     return error ? error.details[0].message : null;
   };
   validateRadioProperty = (value, selectedOption) => {
+    //console.log(this.schema);
     const obj = { [value]: selectedOption };
     const schema = { [value]: this.schema[value] };
     const { error } = Joi.validate(obj, schema);
@@ -256,7 +257,7 @@ class Form extends Component {
   }
 
   renderDropDownList(name, label, options, edit = false) {
-    console.log(edit);
+    // console.log(edit);
     const { errors, data } = this.state;
     //console.log(data[name]);
     return (
@@ -279,7 +280,7 @@ class Form extends Component {
         <Radios
           label={label}
           options={options}
-          onChange={this.handleRadioSelectionChange}
+          onChange={this.handleRadioSelectionChange.bind(this, name)}
           error={errors[name]}
           value={data[name]}
           type={type}
