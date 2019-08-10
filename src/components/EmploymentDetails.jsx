@@ -6,6 +6,10 @@ import _ from "lodash";
 import { getDBService } from "./utils/dbservice";
 import Switch from "react-switch";
 
+/* import MonthPickerInput from "react-month-picker-input";
+import "react-month-picker-input/dist/react-month-picker-input.css"; */
+import Monthpicker from "@compeon/monthpicker";
+import { FaCalendar } from "react-icons/fa";
 import "react-datepicker/dist/react-datepicker.css";
 
 import "./css/employmentDetails.css";
@@ -77,6 +81,7 @@ const sourcedata = [
     label: "Job Portal/Others"
   }
 ];
+
 class EmploymentDetails extends Form {
   state = {
     data: {
@@ -99,7 +104,9 @@ class EmploymentDetails extends Form {
       appliedalready: false,
       specify: false,
       appjobtitle: "",
-      memberspecify: ""
+      memberspecify: "",
+      appjobtitle: "",
+      appmonthyear: ""
     },
     errors: {
       postappliedfor: "'Post Applied for' should not be empty.",
@@ -164,8 +171,9 @@ class EmploymentDetails extends Form {
     specify: Joi.boolean().label(
       "Member"
     ) /* 
-    appjobtitle: Joi.string().label("Applied Already"),
-    memberspecify: Joi.string().label("Member") */
+    appjobtitle: Joi.string().label("Applied Job Title"),
+    appmonthyear: Joi.string().label("Applied Month"),
+    memberspecify: Joi.string().label("Member"), */
   };
   handleDoBChange = date => {
     this.setState({
@@ -210,6 +218,9 @@ class EmploymentDetails extends Form {
     const { data } = this.state;
     data.specify = checked;
     this.setState({ data });
+  };
+  handleMonthChange = obj => {
+    console.log(obj);
   };
   loginPanel = () => {
     const {
@@ -445,11 +456,24 @@ class EmploymentDetails extends Form {
                 />
               </div>
               {appliedalready
-                ? this.renderTextArea(
+                ? this.renderInput(
                     "appjobtitle",
                     "<span class='smallLabel'>[Please specify the job applied for along with mm/yy]</span><sup class='supStar'>*</sup>"
                   )
                 : null}
+              {appliedalready ? this.renderInput("appmonthyear", "") : null}
+              {appliedalready ? (
+                <Monthpicker
+                  month={1}
+                  year={2018}
+                  format="MM,YYYY"
+                  onChange={this.handleMonthChange}
+                  allowedYears={{ before: 2020, after: 1980 }}
+                  primaryColor="#688223"
+                >
+                  <FaCalendar />
+                </Monthpicker>
+              ) : null}
             </div>
             <div className="formDivs">
               <div className="empSwitchDiv">
