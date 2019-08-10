@@ -10,11 +10,11 @@ import Button from "./Button";
 
 class Form extends Component {
   validate = () => {
-    /*     const schema = Joi.object({
+    /* const schema = Joi.object({
       a: Joi.number(),
-      b: Joi.string(),
+      b: Joi.number().max(Joi.ref("a")),
       c: Joi.number().required()
-    }).without("a", "c");
+    });
     const err = schema.validate({ c: 9 });
     console.log("err=====" + err.error); */
     const options = {
@@ -33,11 +33,17 @@ class Form extends Component {
   };
 
   validateProperty = ({ name, value }, dependon) => {
+    const options = {
+      //abortEarly: false,
+      allowUnknown: true
+    };
     let obj = { [name]: value };
-    if (dependon) obj[dependon] = this.state.data[dependon];
+    //let obj = this.state.data;
+    if (dependon) obj[dependon] = Number(this.state.data[dependon]);
     let schema = { [name]: this.schema[name] };
     if (dependon) schema[dependon] = this.schema[dependon];
-    const { error } = Joi.validate(obj, schema);
+    const { error } = Joi.validate(obj, schema, options);
+    //console.log(error);
     //if (error) console.log(error.details);
     return error ? error.details[0].message : null;
   };
