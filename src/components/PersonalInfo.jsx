@@ -45,19 +45,24 @@ const gender = [
   {
     value: "1",
     label: "Female"
+  },
+  {
+    value: "2",
+    label: "Transgender"
   }
 ];
 
 class PersonalInfo extends Form {
   state = {
+    nationality: null,
     data: {
       name: "",
       dob: null,
       nationality: null,
       mobile: "",
       email: "",
-      gender: null,
-      marital: null
+      gender: "",
+      marital: ""
     },
     errors: {
       nationality: "'Nationality' should not be empty.",
@@ -108,6 +113,7 @@ class PersonalInfo extends Form {
   };
   componentDidMount() {
     const { data } = this.props;
+    this.setState({ nationality });
     this.setState({ data }, this.initEmail);
   }
   initEmail = () => {
@@ -117,12 +123,13 @@ class PersonalInfo extends Form {
     page1data.name = page0data.name;
     page1data.mobile = page0data.mobile;
     page1data.dob = page0data.dob;
+    page1data.nationality = null;
     this.setState({ data: page1data });
-    const { nationality, gender, marital, dob } = this.state.data;
+    const { gender, marital, dob } = this.state.data;
     //console.log(nationality);
+
     let errors = { ...this.state.errors };
     //console.log(errors);
-    if (nationality !== null) errors = _.omit(errors, ["nationality"]);
     if (gender !== "") errors = _.omit(errors, ["gender"]);
     if (marital !== "") errors = _.omit(errors, ["marital"]);
     if (dob !== "") errors = _.omit(errors, ["dob"]);
@@ -160,6 +167,7 @@ class PersonalInfo extends Form {
     this.props.goNext();
   };
   pInfoPanel = () => {
+    // console.log(this.state.errors);
     return (
       <div className={"pInfoForm-login show"}>
         {/* <div className="pInfoForm-title">Fill your personal details</div> */}
@@ -179,7 +187,8 @@ class PersonalInfo extends Form {
             {this.renderDropDownList(
               "nationality",
               "Nationality<sup class='supStar'>*</sup>",
-              nationality
+              this.state.nationality,
+              true
             )}
             {this.renderInput(
               "mobile",

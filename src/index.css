@@ -55,6 +55,7 @@ code {
   background-color: whitesmoke;
   margin-bottom: 16px;
   position: relative;
+  width: 90%;
 }
 .formItemSub div {
   width: 100% !important;
@@ -89,6 +90,10 @@ code {
   line-height: 1;
   width: 90%;
   margin-bottom: 16px;
+}
+
+.formDivs .formItemSub {
+  width: 100%;
 }
 .formDivs textarea {
   width: 100%;

@@ -7,6 +7,7 @@ import Radios from "./Radios";
 import Dates from "./Dates";
 import AgreeBox from "./agreeBox";
 import Button from "./Button";
+import _ from "lodash";
 
 class Form extends Component {
   validate = () => {
@@ -21,14 +22,12 @@ class Form extends Component {
       //abortEarly: false
       allowUnknown: true
     };
+    //console.log(this.state.data);
     const { error } = Joi.validate(this.state.data, this.schema, options);
-    //console.log("-----" + error);
     if (!error) return null;
-    //console.log("22---" + error);
     const errors = {};
     if (error.details !== undefined)
       for (let item of error.details) errors[item.path[0]] = item.message;
-    //console.log(errors);
     return errors;
   };
 
@@ -38,7 +37,6 @@ class Form extends Component {
       allowUnknown: true
     };
     let obj = { [name]: value };
-    //let obj = this.state.data;
     if (dependon) obj[dependon] = Number(this.state.data[dependon]);
     let schema = { [name]: this.schema[name] };
     if (dependon) schema[dependon] = this.schema[dependon];
@@ -64,6 +62,7 @@ class Form extends Component {
     return error ? error.details[0].message : null;
   };
   validateRadioProperty = (value, selectedOption) => {
+    //console.log(this.schema);
     const obj = { [value]: selectedOption };
     const schema = { [value]: this.schema[value] };
     const { error } = Joi.validate(obj, schema);
@@ -84,6 +83,43 @@ class Form extends Component {
     this.setState({ errors: errors || {} });
     if (errors) return;
     this.doSubmit();
+  };
+
+  createOption = (label, value) => ({
+    label,
+    value: value //label.toLowerCase().replace(/\W/g, "")
+  });
+  handleCreateDDList = (name, inputValue) => {
+    //this.setState({ isLoading: true });
+    //console.group("Option created");
+    //console.log("Wait a moment...");
+    setTimeout(() => {
+      const dataobject = this.state[name];
+      console.log(dataobject);
+      const newOption = this.createOption(
+        inputValue,
+        String(dataobject.length)
+      );
+      //console.log(newOption);
+      //console.groupEnd();
+      this.setState({
+        //isLoading: false,
+        [name]: [...dataobject, newOption]
+      });
+      const { data } = this.state;
+      data[name] = newOption;
+      this.setState({
+        //isLoading: false,
+        data: data
+      });
+      let { errors } = this.state;
+      //console.log(errors);
+      const newError = _.omit(errors, [name]);
+
+      this.setState({ errors: newError }, () => {
+        //console.log(this.state.errors);
+      });
+    }, 1000);
   };
 
   handleChange = (dependon, { currentTarget: input }) => {
@@ -225,7 +261,8 @@ class Form extends Component {
     );
   }
 
-  renderDropDownList(name, label, options) {
+  renderDropDownList(name, label, options, edit = false) {
+    // console.log(edit);
     const { errors, data } = this.state;
     //console.log(data[name]);
     return (
@@ -235,6 +272,8 @@ class Form extends Component {
         onChange={this.handleDropDownChange.bind(this, name)}
         error={errors[name]}
         value={data[name]}
+        onCreateOption={edit ? this.handleCreateDDList.bind(this, name) : null}
+        edit={edit}
       />
     );
   }
