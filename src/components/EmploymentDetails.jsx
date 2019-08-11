@@ -86,10 +86,10 @@ const sourcedata = [
     label: "Job Portal/Others"
   }
 ];
-const currencyData = [
+/* const currencyData = [
   { value: "0", label: "INR" },
   { value: "0", label: "USD" }
-];
+]; */
 
 class EmploymentDetails extends Form {
   state = {
@@ -141,7 +141,7 @@ class EmploymentDetails extends Form {
     texp: Joi.number()
       .required()
       .label("Total Experience"),
-    rexp: Joi.number()
+    /*  rexp: Joi.number()
       .max(Joi.ref("texp"))
       .required()
       .label("Relevant Experience"),
@@ -151,7 +151,7 @@ class EmploymentDetails extends Form {
         label: Joi.string().max(40),
         value: Joi.number()
       })
-      .label("Reason"),
+      .label("Reason"), */
     notice: Joi.number()
       .required()
       .integer()
@@ -194,7 +194,7 @@ class EmploymentDetails extends Form {
   };
 
   doSubmit = async () => {
-    console.log("doSubmit - Employment.jsx");
+    //console.log("doSubmit - Employment.jsx");
     this.props.showProgress();
     await getDBService(
       "checkUserExistance",
@@ -208,7 +208,7 @@ class EmploymentDetails extends Form {
   goForward = (result, { aid }, message) => {
     if (result === "success") {
       this.props.hideProgress();
-      this.props.goNext();
+      this.props.goNext(this.state.data);
     } else {
       //this.setErrorText(message);
     }
@@ -252,6 +252,29 @@ class EmploymentDetails extends Form {
       appmonthyear
     } = this.state.data;
     let newSchema;
+    if (texp > 0) {
+      newSchema = _.omit(this.schema, ["rexp", "reasonjobchange"]);
+      this.schema = {};
+      _.merge(newSchema, {
+        rexp: Joi.number()
+          .max(Joi.ref("texp"))
+          .required()
+          .label("Relevant Experience"),
+        reasonjobchange: Joi.object()
+          .required()
+          .keys({
+            label: Joi.string().max(40),
+            value: Joi.number()
+          })
+          .label("Reason")
+      });
+      _.merge(this.schema, newSchema);
+    } else {
+      newSchema = _.omit(this.schema, ["rexp", "reasonjobchange"]);
+      this.schema = {};
+      _.merge(newSchema, {});
+      _.merge(this.schema, newSchema);
+    }
 
     if (appliedalready) {
       newSchema = _.omit(this.schema, ["appjobtitle", "appmonthyear"]);

@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import Login from "./LoginForm";
 import PersonalInfo from "./PersonalInfo";
 import EmploymentDetails from "./EmploymentDetails";
+import EducationQualification from "./EducationQualification";
 import { MdAccountBox, MdLock } from "react-icons/md";
-import { FaBuilding } from "react-icons/fa";
+import { FaBuilding, FaUserGraduate } from "react-icons/fa";
 
 import ProgressBar from "./utils/ProgressBar";
 
@@ -11,6 +12,7 @@ import "./css/main.css";
 class Main extends Component {
   constructor(props) {
     super(props);
+    this.scrollMain = React.createRef();
     this.state = {
       loading: false,
       step: 2,
@@ -33,10 +35,37 @@ class Main extends Component {
           marital: "" //string as Radio expect string
         }
       },
+      page2: {
+        data: {
+          postappliedfor: null,
+          texp: "",
+          rexp: "",
+          reasonjobchange: "",
+          notice: null,
+          cctc: "",
+          ectc: "",
+          source: null,
+          srcconsult: "",
+          srcothers: "",
+          srcrefempname: "",
+          srcrefempid: "",
+          relatedto: false,
+          relatedname: "",
+          relatedempid: "",
+          relatedrelation: "",
+          appliedalready: false,
+          specify: false,
+          appjobtitle: "",
+          memberspecify: "",
+          appmonthyear: "",
+          currency: "INR"
+        }
+      },
       subtitle: [
         "Login/Register to continue",
         "Fill your personal details",
-        "Fill your employment details"
+        "Fill your employment details",
+        "Fill your education qulaification details"
       ]
     };
   }
@@ -53,7 +82,11 @@ class Main extends Component {
     if (this.state.step === 1) {
       this.setState({ page1: { data: data } });
     }
+    if (this.state.step === 2) {
+      this.setState({ page2: { data: data } });
+    }
     this.setState({ step: this.state.step + 1 });
+    this.scrollMain.current.scrollTop = 0;
   };
   render() {
     const { loading, step, page0, page1 } = this.state;
@@ -70,7 +103,7 @@ class Main extends Component {
               <img alt="logo spi" src="./images/SPi-Global-logo-wordmark.png" />
             </div>
           </div>
-          <div className="ins-root-main-right">
+          <div className="ins-root-main-right" ref={this.scrollMain}>
             {/* <div className="ins-root-main-right-banner">
               <img
                 alt="banner spi"
@@ -115,6 +148,14 @@ class Main extends Component {
                       step={step}
                     />
                   ) : null}
+                  {step === 3 ? (
+                    <EducationQualification
+                      showProgress={this.showLoading}
+                      hideProgress={this.hideLoading}
+                      goNext={this.increaseStep}
+                      step={step}
+                    />
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -133,6 +174,11 @@ class Main extends Component {
           {step === 2 ? (
             <div className="ins-root-main-icon">
               <FaBuilding className="ins-root-main-icon-main" />
+            </div>
+          ) : null}
+          {step === 3 ? (
+            <div className="ins-root-main-icon">
+              <FaUserGraduate className="ins-root-main-icon-main" />
             </div>
           ) : null}
         </div>
