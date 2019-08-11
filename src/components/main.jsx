@@ -15,7 +15,7 @@ class Main extends Component {
     this.scrollMain = React.createRef();
     this.state = {
       loading: false,
-      step: 2,
+      step: 3,
       page0: {
         data: {
           email: "",

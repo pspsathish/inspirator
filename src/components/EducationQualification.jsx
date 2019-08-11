@@ -5,23 +5,29 @@ import { getDBService } from "./utils/dbservice";
 import _ from "lodash";
 
 import "./css/educationQualification.css";
+import posed from "react-pose";
+const Content = posed.div({
+  closed: { height: 0 },
+  open: { height: "auto" }
+});
 
 class EducationQualification extends Form {
   state = {
     data: {},
     errors: {},
-    disable: false
+    disable: false,
+    open: false
   };
   schema = {};
 
   doSubmit = async () => {
     //console.log("doSubmit - EducationQualification.jsx");
     this.props.showProgress();
-    await getDBService(
+    /* await getDBService(
       "checkUserExistance",
       { email: "sathish@yahoo.com" },
       this.goForward
-    );
+    ); */
   };
   goForward = (result, { aid }, message) => {
     if (result === "success") {
@@ -33,6 +39,7 @@ class EducationQualification extends Form {
   };
 
   qualification = () => {
+    const { open } = this.state;
     return (
       <div className={"qualificationForm-login show"}>
         <div className="qualificationForm-content">
