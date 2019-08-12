@@ -75,7 +75,7 @@
 }
 .ins-root-main-right-container-panel {
   width: 80%;
-  max-width: 575px;
+  max-width:575px;
   height: 100%;
   color: #a5ce39;
   font-family: "robotolight", sans-serif;
@@ -85,7 +85,7 @@
   /* background-color: bisque; */
 }
 .ins-rmrcp-frame1 {
-  /* height: 120px; */
+  height: 120px;
   margin-bottom: 20px;
 }
 .ins-rmrcp-frame1-greet {

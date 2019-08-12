@@ -3,9 +3,8 @@ import Login from "./LoginForm";
 import PersonalInfo from "./PersonalInfo";
 import EmploymentDetails from "./EmploymentDetails";
 import EducationQualification from "./EducationQualification";
-import { MdAccountBox, MdLock, MdWork } from "react-icons/md";
+import { MdAccountBox, MdLock } from "react-icons/md";
 import { FaBuilding, FaUserGraduate } from "react-icons/fa";
-import EmploymentHistory from "./EmploymentHistory";
 
 import ProgressBar from "./utils/ProgressBar";
 
@@ -16,7 +15,7 @@ class Main extends Component {
     this.scrollMain = React.createRef();
     this.state = {
       loading: false,
-      step: 4,
+      step: 3,
       page0: {
         data: {
           email: "",
@@ -64,10 +63,9 @@ class Main extends Component {
       },
       subtitle: [
         "Login/Register to continue",
-        "Fill personal details",
-        "Fill employment details",
-        "Fill education qualification details",
-        "Fill employment history details"
+        "Fill your personal details",
+        "Fill your employment details",
+        "Fill your education qulaification details"
       ]
     };
   }
@@ -77,25 +75,17 @@ class Main extends Component {
   hideLoading = () => {
     this.setState({ loading: false });
   };
-
-  gopage = evt => {
-    this.increaseStep(this.state.data, evt.currentTarget.id);
-  };
-  increaseStep = (data, steptogo = 0) => {
-    if (steptogo === 0) {
-      if (this.state.step === 0) {
-        this.setState({ page0: { data: data } });
-      }
-      if (this.state.step === 1) {
-        this.setState({ page1: { data: data } });
-      }
-      if (this.state.step === 2) {
-        this.setState({ page2: { data: data } });
-      }
-      this.setState({ step: this.state.step + 1 });
-    } else {
-      this.setState({ step: Number(steptogo) });
+  increaseStep = data => {
+    if (this.state.step === 0) {
+      this.setState({ page0: { data: data } });
     }
+    if (this.state.step === 1) {
+      this.setState({ page1: { data: data } });
+    }
+    if (this.state.step === 2) {
+      this.setState({ page2: { data: data } });
+    }
+    this.setState({ step: this.state.step + 1 });
     this.scrollMain.current.scrollTop = 0;
   };
   render() {
@@ -129,26 +119,6 @@ class Main extends Component {
                   </div>
                   <div className="ins-rmrcp-frame1-info">
                     {this.state.subtitle[this.state.step]}
-                  </div>
-                  <div className="pageslink">
-                    <span className="pages" id="1" onClick={this.gopage}>
-                      1
-                    </span>
-                    <span className="pages" id="2" onClick={this.gopage}>
-                      2
-                    </span>
-                    <span className="pages" id="3" onClick={this.gopage}>
-                      3
-                    </span>
-                    <span className="pages" id="4" onClick={this.gopage}>
-                      4
-                    </span>
-                    <span className="pages" id="5" onClick={this.gopage}>
-                      5
-                    </span>
-                    <span className="pages" id="6" onClick={this.gopage}>
-                      6
-                    </span>
                   </div>
                 </div>
                 <div className="ins-rmrcp-frame2">
@@ -186,14 +156,6 @@ class Main extends Component {
                       step={step}
                     />
                   ) : null}
-                  {step === 4 ? (
-                    <EmploymentHistory
-                      showProgress={this.showLoading}
-                      hideProgress={this.hideLoading}
-                      goNext={this.increaseStep}
-                      step={step}
-                    />
-                  ) : null}
                 </div>
               </div>
             </div>
@@ -217,11 +179,6 @@ class Main extends Component {
           {step === 3 ? (
             <div className="ins-root-main-icon">
               <FaUserGraduate className="ins-root-main-icon-main" />
-            </div>
-          ) : null}
-          {step === 4 ? (
-            <div className="ins-root-main-icon">
-              <MdWork className="ins-root-main-icon-main" />
             </div>
           ) : null}
         </div>

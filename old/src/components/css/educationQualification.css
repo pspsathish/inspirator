@@ -33,7 +33,8 @@
 
 .togglespan {
   background: #a5ce39;
-  padding: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   color: black;
   cursor: pointer;
   margin-right: 10px;
@@ -43,36 +44,13 @@
 
 .togglespan[disabled] {
   background: #e2e2e2;
+  padding-left: 10px;
+  padding-right: 10px;
   color: #ccd0d4;
 }
 .academicstitle {
   color: black;
   font-weight: 600;
-}
-.acapanel {
-  background-color: #f3f3f3;
-  font-weight: 600;
-  color: black;
-  width: 90%;
-  margin-bottom: 20px;
-}
-.acapanel > div + div > div {
-  width: 100% !important;
-}
-.acapaneltitle {
-  background-color: #a5ce39;
-  padding: 10px;
-}
-.acapanelcontent {
-  padding: 20px;
-  padding-bottom: 0px;
-}
-.listContainer {
-  position: relative;
-  top: -30px;
-}
-.listContainer > div {
-  width: 100% !important;
 }
 @keyframes loginShow {
   from {

@@ -170,6 +170,7 @@ class PersonalInfo extends Form {
     // console.log(this.state.errors);
     return (
       <div className={"pInfoForm-login show"}>
+        {/* <div className="pInfoForm-title">Fill your personal details</div> */}
         <div className="pInfoForm-content">
           <form
             className="pInfoForm"

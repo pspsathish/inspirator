@@ -9,7 +9,7 @@ import Switch from "react-switch";
 /* import MonthPickerInput from "react-month-picker-input";
 import "react-month-picker-input/dist/react-month-picker-input.css"; */
 import Monthpicker from "@compeon/monthpicker";
-import { FaCalendarAlt } from "react-icons/fa";
+import { FaCalendar } from "react-icons/fa";
 import getSymbolFromCurrency from "currency-symbol-map";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -560,7 +560,7 @@ class EmploymentDetails extends Form {
                           allowedYears={{ before: 2020, after: 1980 }}
                           primaryColor="#688223"
                         >
-                          <FaCalendarAlt
+                          <FaCalendar
                             style={{
                               fontSize: "34px",
                               display: "inline-block"

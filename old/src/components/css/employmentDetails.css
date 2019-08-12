@@ -1,0 +1,145 @@
+.empDetailsForm {
+  display: flex;
+  flex-direction: column;
+}
+.dummy-space {
+  width: 10%;
+}
+.login-button {
+  width: 20%;
+}
+.empDetailsForm-login {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.empDetailsForm-title {
+  text-transform: uppercase;
+  font-size: 22px;
+}
+.empDetailsForm-content {
+  border-right: 1px solid #a5ce39;
+  font-size: 20px;
+  padding-left: 0px;
+}
+
+.show {
+  animation-name: loginShow;
+  animation-duration: 0.5s;
+  position: relative;
+}
+.showNone {
+  display: none;
+}
+.showMe {
+}
+.css-yk16xz-control {
+  background-color: rgb(255, 255, 255) !important;
+  border: 1px solid rgb(66, 65, 67) !important;
+  color: rgb(54, 54, 54) !important;
+  font-size: 14px !important;
+  box-shadow: none !important;
+  height: 40px !important;
+}
+.css-1pahdxg-control {
+  background-color: rgb(255, 255, 255) !important;
+  border: 1px solid rgb(66, 65, 67) !important;
+  color: rgb(54, 54, 54) !important;
+  font-size: 14px !important;
+  box-shadow: none !important;
+  height: 40px !important;
+}
+.css-2b097c-container:focus {
+  outline: none;
+}
+.css-w8afj7-Input {
+  font-size: 18px !important;
+}
+.css-1wa3eu0-placeholder {
+  font-size: 18px !important;
+}
+
+.pi-radioGroup > div > div {
+  background-color: rgb(255, 255, 255) !important;
+  border: 1px solid rgb(66, 65, 67) !important;
+  color: rgb(54, 54, 54) !important;
+  box-shadow: none !important;
+  border-radius: 0.25rem !important;
+}
+.empdet-radioGroup > div > div > div {
+  align-items: center;
+}
+.empdet-radioGroup > div > div > div > div + div {
+  width: 20px !important;
+  height: 20px !important;
+}
+.empdet-radioGroup > div > div > div > div + div > div {
+  background: rgb(165, 206, 57) !important;
+}
+.empdet-radioGroup {
+  height: 360px !important;
+}
+
+.srcdet-radioGroup > div > div > div {
+  align-items: center;
+}
+.srcdet-radioGroup > div > div > div > div + div {
+  width: 20px !important;
+  height: 20px !important;
+}
+.srcdet-radioGroup > div > div > div > div + div > div {
+  background: rgb(165, 206, 57) !important;
+}
+.srcdet-radioGroup {
+  height: 540px !important;
+}
+.empSwitchDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.formItemSub2 {
+  color: #688223;
+  font-size: smaller;
+  padding: 10px;
+  background-color: whitesmoke;
+  margin-bottom: 16px;
+  position: relative;
+  width: 100%;
+}
+.currencyPanel {
+  width: 90%;
+  padding: 10px;
+  background-color: #ececec;
+}
+.currencyPanel div {
+  width: 100% !important;
+}
+.currencyspan {
+  background: #a5ce39;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: black;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.currencyspan[disabled] {
+  background: #e2e2e2;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #ccd0d4;
+}
+@keyframes loginShow {
+  from {
+    left: 100%;
+    opacity: 0;
+  }
+  to {
+    left: 0%;
+    opacity: 1;
+  }
+}

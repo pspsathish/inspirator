@@ -1,0 +1,58 @@
+.employhistory {
+  display: flex;
+  flex-direction: column;
+}
+.dummy-space {
+  width: 10%;
+}
+.login-button {
+  width: 20%;
+}
+.employhistory-login {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.employhistory-title {
+  text-transform: uppercase;
+  font-size: 22px;
+}
+.employhistory-content {
+  border-right: 1px solid #a5ce39;
+  font-size: 20px;
+  padding-left: 0px;
+  font-weight: 600;
+  color: black;
+}
+
+.show {
+  animation-name: loginShow;
+  animation-duration: 0.5s;
+  position: relative;
+}
+.employCount {
+  background-color: #cea539;
+  width: 50px;
+  display: flex;
+  top: 0px;
+  bottom: 0px;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+}
+.employaddpanel {
+  display: flex;
+  justify-content: center;
+}
+.employadd {
+  width: 50px;
+  height: 50px;
+  background: #cea539;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  margin-bottom: 20px;
+}
