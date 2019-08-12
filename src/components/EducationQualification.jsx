@@ -13,7 +13,9 @@ const Content = posed.div({
 
 class EducationQualification extends Form {
   state = {
-    data: {},
+    data: {
+      academic: [false, false, false, false, false]
+    },
     errors: {},
     disable: false,
     open: false
@@ -37,9 +39,31 @@ class EducationQualification extends Form {
       //this.setErrorText(message);
     }
   };
+  toggleAcademic = evt => {
+    const { data } = this.state;
+    const val = !data.academic[evt.currentTarget.id];
+    console.log(val);
+    /* for (let i = 0; i <= evt.currentTarget.id; i++) {
+      data.academic[i] = val;
+    } */
 
+    if (val && evt.currentTarget.id === "4") {
+      data.academic = [true, true, false, false, true];
+    } else if (!val && evt.currentTarget.id === "4") {
+      data.academic[4] = !data.academic[4];
+    }
+
+    if (val && evt.currentTarget.id === "3") {
+      data.academic = [true, true, true, true, false];
+    } else if (!val && evt.currentTarget.id === "4") {
+      data.academic[3] = !data.academic[3];
+    }
+
+    this.setState({ data });
+  };
   qualification = () => {
     const { open } = this.state;
+    const { academic } = this.state.data;
     return (
       <div className={"qualificationForm-login show"}>
         <div className="qualificationForm-content">
@@ -48,6 +72,51 @@ class EducationQualification extends Form {
             onSubmit={this.handleSubmit}
             autoComplete="off"
           >
+            <div>
+              <div className="academicstitle">Select Academics to input</div>
+              <div>
+                <div
+                  className="togglespan"
+                  disabled={!academic[0] ? true : false}
+                  onClick={this.toggleAcademic}
+                  id="0"
+                >
+                  X&nbsp;Standard
+                </div>
+                <div
+                  className="togglespan"
+                  disabled={!academic[1] ? true : false}
+                  onClick={this.toggleAcademic}
+                  id="1"
+                >
+                  XII&nbsp;Standard/Diploma
+                </div>
+                <div
+                  className="togglespan"
+                  disabled={!academic[2] ? true : false}
+                  onClick={this.toggleAcademic}
+                  id="2"
+                >
+                  UG&nbsp;Degree
+                </div>
+                <div
+                  className="togglespan"
+                  disabled={!academic[3] ? true : false}
+                  onClick={this.toggleAcademic}
+                  id="3"
+                >
+                  PG&nbsp;Degree
+                </div>
+                <div
+                  className="togglespan"
+                  disabled={!academic[4] ? true : false}
+                  onClick={this.toggleAcademic}
+                  id="4"
+                >
+                  Others
+                </div>
+              </div>
+            </div>
             <div className="login-button">
               {this.renderButton(
                 "Continue",

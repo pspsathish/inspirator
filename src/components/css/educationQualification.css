@@ -30,6 +30,28 @@
   animation-duration: 0.5s;
   position: relative;
 }
+
+.togglespan {
+  background: #a5ce39;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: black;
+  cursor: pointer;
+  margin-right: 10px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.togglespan[disabled] {
+  background: #e2e2e2;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #ccd0d4;
+}
+.academicstitle {
+  color: black;
+  font-weight: 600;
+}
 @keyframes loginShow {
   from {
     left: 100%;
