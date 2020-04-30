@@ -9,7 +9,7 @@
     "bootstrap": "^4.3.1",
     "currency-symbol-map": "^4.0.4",
     "joi-browser": "^13.4.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "mdbreact": "^4.18.1",
     "rc-checkbox": "^2.1.7",
     "react": "^16.8.6",
